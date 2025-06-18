@@ -1,111 +1,196 @@
-import * as ImagePicker from "expo-image-picker";
-import { useState } from 'react';
-import { ImageSourcePropType, StyleSheet, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import CategoriesGridRegular from '../../components/CategoriesGridRegular';
+import ItemVerticalGrid from '../../components/ItemVerticalGrid';
 
-import Button from '@/components/Button';
-import CircleButton from "@/components/CircleButton";
-import EmojiList from "@/components/EmojiList";
-import EmojiPicker from "@/components/EmojiPicker";
-import EmojiSticker from "@/components/EmojiSticker";
-import IconButton from "@/components/IconButton";
-import ImageViewer from '@/components/ImageViewer';
+// Mock data for categories
+const categories = [
+    { id: '1', label: 'Electronics', icon: 'phone-portrait' as const },
+    { id: '2', label: 'Tools', icon: 'construct' as const },
+    { id: '3', label: 'Sports', icon: 'basketball' as const },
+    { id: '4', label: 'Party', icon: 'wine' as const },
+    { id: '5', label: 'Camping', icon: 'compass' as const },
+    { id: '6', label: 'Books', icon: 'book' as const },
+];
 
-const PlaceholderImage = require('@/assets/images/background-image.png');
+// Mock data for items
+const items = [
+    {
+        id: '1',
+        name: 'Professional Camera',
+        image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32',
+        priceDay: 50,
+        distance: 2.5,
+    },
+    {
+        id: '2',
+        name: 'Mountain Bike',
+        image: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e',
+        priceDay: 30,
+        distance: 1.8,
+    },
+    {
+        id: '3',
+        name: 'Camping Tent',
+        image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4',
+        priceDay: 25,
+        distance: 3.2,
+    },
+    {
+        id: '4',
+        name: 'DJ Equipment',
+        image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d',
+        priceDay: 100,
+        distance: 4.0,
+    },
+    {
+        id: '5',
+        name: 'Gaming Console',
+        image: 'https://images.unsplash.com/photo-1486401899868-0e435ed85128',
+        priceDay: 20,
+        distance: 1.5,
+    },
+    {
+        id: '6',
+        name: 'Professional Drone',
+        image: 'https://images.unsplash.com/photo-1507582020474-9a35b7d455d9',
+        priceDay: 75,
+        distance: 2.8,
+    },
+    {
+        id: '7',
+        name: 'Electric Scooter',
+        image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888',
+        priceDay: 15,
+        distance: 1.2,
+    },
+    {
+        id: '8',
+        name: 'Projector',
+        image: 'https://images.unsplash.com/photo-1563297007-0686b7003af7',
+        priceDay: 40,
+        distance: 3.5,
+    },
+    {
+        id: '9',
+        name: 'VR Headset',
+        image: 'https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac',
+        priceDay: 35,
+        distance: 2.1,
+    },
+    {
+        id: '10',
+        name: 'Electric Guitar',
+        image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1',
+        priceDay: 45,
+        distance: 1.7,
+    },
+    {
+        id: '11',
+        name: 'Telescope',
+        image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679',
+        priceDay: 60,
+        distance: 4.2,
+    },
+    {
+        id: '12',
+        name: 'Kayak',
+        image: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12',
+        priceDay: 55,
+        distance: 3.8,
+    },
+];
 
+export default function SearchPage() {
+    const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-export default function ImagePage() {
-    const [selectedImage, setSelectedImage] = useState<undefined | string>(undefined);
-    const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
-    const [isEmojiModalVisible, setIsEmojiModalVisible] = useState<boolean>(false);
-    const [selectedEmoji, setSelectedEmoji] = useState<ImageSourcePropType | undefined>(undefined);
-
-    const pickImageAsync = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ['images'],
-            allowsEditing: true,
-            quality: 1
-        });
-
-        if (!result.canceled) {
-            console.log("Imagem Selecionada");
-            setSelectedImage(result.assets[0].uri);
-            setShowAppOptions(true);
-        }
-        else {
-            alert("You didn't select any picture")
-        }
-    }
-
-    const onReset = () => {
-        setShowAppOptions(false);
+    const handleItemPress = (itemId: string) => {
+        router.push(`/item/${itemId}`);
     };
-
-    const onAddSticker = () => {
-        setIsEmojiModalVisible(true);
-    };
-
-    const onModalClose = () => {
-        setIsEmojiModalVisible(false);
-    };
-
-    const onSaveImgAsync = async () => {
-
-    }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <ImageViewer imgSource={PlaceholderImage} selectedImage={selectedImage}/>
-                {
-                    selectedEmoji && <EmojiSticker imageSize={40} stickerSource={selectedEmoji}/>
-                }
+        <SafeAreaView style={styles.container}>
+            {/* Search Bar and Filter */}
+            <View style={styles.searchContainer}>
+                <View style={styles.searchInputContainer}>
+                    <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
+                    <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search for items..."
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                    />
+                </View>
+                <TouchableOpacity style={styles.filterButton}>
+                    <Ionicons name="options-outline" size={20} color="#666" />
+                </TouchableOpacity>
             </View>
 
-            {showAppOptions ? (
-                <View style={styles.optionsContainer}>
-                    <View style={styles.optionsRow}>
-                        <IconButton icon="refresh" label="Reset" onPress={onReset} />
-                        <CircleButton onPress={onAddSticker} />
-                        <IconButton icon="save-alt" label="Save" onPress={onSaveImgAsync} />
-                    </View>
-                </View>
-            ) : (
-                <View style={styles.buttonContainer}>
-                    <Button theme='primary' label="Choose a photo" onPress={pickImageAsync}/>
-                    <Button label="Use this photo" />
-                </View>
-            )}
-            <EmojiPicker isVisible={isEmojiModalVisible} onClose={onModalClose}>
-                <EmojiList onSelect={setSelectedEmoji} onCloseModal={onModalClose}></EmojiList>
-            </EmojiPicker>
-        </View>
+            <ScrollView style={styles.scrollContainer}>
+                {/* Categories Grid */}
+                <CategoriesGridRegular
+                    categories={categories}
+                    selectedCategory={selectedCategory}
+                    onCategoryPress={setSelectedCategory}
+                />
+
+                {/* Items Grid */}
+                <ItemVerticalGrid
+                    items={items}
+                    onItemPress={handleItemPress}
+                />
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#25292e',
-        alignItems: 'center',
+        backgroundColor: '#f5f5f5',
     },
-    imageContainer: {
+    scrollContainer: {
         flex: 1,
     },
-    image: {
-        width: 320,
-        height: 440,
-        borderRadius: 18,
-    },
-    buttonContainer: {
-        flex: 1 / 3,
+    searchContainer: {
+        flexDirection: 'row',
         alignItems: 'center',
+        marginHorizontal: 16,
+        marginTop: 16,
+        marginBottom: 32,
+        gap: 12,
     },
-    optionsContainer: {
-        position: 'absolute',
-        bottom: 80
-    },
-    optionsRow: {
+    filterButton: {
+        width: 48,
+        height: 48,
+        backgroundColor: '#fff',
+        borderRadius: 12,
         alignItems: 'center',
-        flexDirection: 'row'
-    }
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: '#e0e0e0',
+    },
+    searchInputContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        paddingHorizontal: 12,
+        borderRadius: 12,
+        height: 48,
+        borderWidth: 1,
+        borderColor: '#e0e0e0',
+    },
+    searchIcon: {
+        marginRight: 8,
+    },
+    searchInput: {
+        flex: 1,
+        fontSize: 16,
+        color: '#333',
+    },
 });
