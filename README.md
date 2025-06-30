@@ -16,26 +16,29 @@ Rent is a modern consumer-to-consumer (C2C) item rental platform built with Reac
 
 ## Tech Stack
 
-- React Native
-- Expo
-- TypeScript
-- React Navigation
-- Expo Router
-- Various Expo modules for enhanced functionality
+- **React Native** (0.79.2) - Cross-platform mobile development
+- **Expo** (53.0.9) - Development platform and tools
+- **TypeScript** - Type-safe JavaScript
+- **Expo Router** - File-based routing system
+- **React Navigation** - Navigation library
+- **Expo Image Picker** - Image selection and camera access
+- **React Native Reanimated** - Smooth animations
+- **Expo Blur** - Blur effects and overlays
 
 ## Prerequisites
 
 - Node.js (Latest LTS version recommended)
 - npm or yarn
-- Expo CLI
+- Expo CLI (`npm install -g @expo/cli`)
 - iOS Simulator (for Mac users) or Android Studio (for Android development)
+- Expo Go app for testing on physical devices
 
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
-cd truster
+git clone <your-repository-url>
+cd rent-frontend
 ```
 
 2. Install dependencies:
@@ -57,13 +60,27 @@ yarn start
 - Press `a` for Android emulator
 - Scan QR code with Expo Go app for physical device
 
-## Development
+## Project Structure
 
-The project uses Expo Router for navigation and follows a modern React Native development approach. Key directories:
+The project follows Expo Router's file-based routing convention:
 
-- `/app` - Main application screens and navigation
-- `/components` - Reusable React components
-- `/assets` - Images, fonts, and other static assets
+```
+rent-frontend/
+├── app/                    # Main application screens and navigation
+│   ├── _layout.tsx        # Root layout configuration
+│   ├── (tabs)/            # Tab-based navigation screens
+│   ├── item/              # Item-related screens
+│   └── +not-found.tsx     # 404 error page
+├── components/            # Reusable React components
+│   ├── Button.tsx         # Custom button component
+│   ├── ItemGrid.tsx       # Item grid layout
+│   ├── RentableItemCard.tsx # Item card component
+│   ├── ReviewsGrid.tsx    # Reviews display
+│   └── ...                # Other UI components
+├── assets/                # Images, fonts, and static assets
+├── database.sql           # Database schema and setup
+└── package.json           # Project dependencies and scripts
+```
 
 ## Available Scripts
 
@@ -72,6 +89,18 @@ The project uses Expo Router for navigation and follows a modern React Native de
 - `npm run android` - Run on Android emulator
 - `npm run web` - Run in web browser
 - `npm run lint` - Run ESLint for code quality
+- `npm run reset-project` - Reset project configuration
+
+## Development
+
+This project uses:
+- **Expo Router** for file-based navigation
+- **TypeScript** for type safety
+- **ESLint** for code quality
+- **Expo Image Picker** for photo uploads
+- **React Native Reanimated** for smooth animations
+
+The app follows modern React Native development practices with a focus on performance and user experience.
 
 ## Contributing
 
@@ -91,4 +120,4 @@ For support, please open an issue in the GitHub repository or contact the develo
 
 ---
 
-Built with ❤️ using React Native and Expo
+Built using React Native and Expo

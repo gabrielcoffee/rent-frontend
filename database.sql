@@ -17,10 +17,10 @@ INSERT INTO public.currency (code, name, symbol) VALUES
   ('USD', 'United States Dollar', '$');
 
 -- ===========================================================
--- 2. Create Category and Subcategory Tables (with translations)
+-- 2. Create Category Table
 -- ===========================================================
 
--- 2.1. Table “category”
+-- 2.1. Table "category"
 CREATE TABLE public.category (
   id         UUID      NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
   code       TEXT      NOT NULL UNIQUE,
@@ -30,54 +30,50 @@ CREATE TABLE public.category (
 
 COMMENT ON TABLE public.category IS 'Top-level groups for organizing items (e.g. Electronics, Sports).';
 
--- 2.2. Table “category_translation”
-CREATE TABLE public.category_translation (
-  id           UUID      NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
-  category_id  UUID      NOT NULL
-                REFERENCES public.category(id) ON DELETE CASCADE,
-  locale       TEXT      NOT NULL,    -- e.g. 'pt', 'en', 'es'
-  name         TEXT      NOT NULL,
-  description  TEXT      NULL,
-  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE(category_id, locale)
-);
-
-COMMENT ON TABLE public.category_translation IS 'Holds translated names and descriptions for each category in various locales.';
-
--- 2.3. Table “subcategory”
-CREATE TABLE public.subcategory (
-  id          UUID      NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
-  category_id UUID      NOT NULL
-                REFERENCES public.category(id) ON DELETE CASCADE,
-  code        TEXT      NOT NULL,
-  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE(category_id, code)
-);
-
-COMMENT ON TABLE public.subcategory IS 'More specific groups under each category (e.g. Cameras under Electronics).';
-
--- 2.4. Table “subcategory_translation”
-CREATE TABLE public.subcategory_translation (
-  id             UUID      NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
-  subcategory_id UUID      NOT NULL
-                  REFERENCES public.subcategory(id) ON DELETE CASCADE,
-  locale         TEXT      NOT NULL,
-  name           TEXT      NOT NULL,
-  description    TEXT      NULL,
-  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE(subcategory_id, locale)
-);
-
-COMMENT ON TABLE public.subcategory_translation IS 'Holds translated names and descriptions for each subcategory in various locales.';
-
 -- ===========================================================
--- 3. Create Item, Booking, Rental, Request Tables
+-- 3. Create Profile Table
 -- ===========================================================
 
--- 3.1. Table “item”
+-- PostGIS extension to use GEOGRAPHY(Point)
+-- will be used to find nearby users within X kilometers.
+CREATE EXTENSION IF NOT EXISTS postgis;
+
+-- 3.1. Table "profile"
+CREATE TABLE public.profile (
+  id               UUID                        NOT NULL PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  username         TEXT                        NOT NULL UNIQUE,
+  display_name     TEXT                        NOT NULL,
+  full_name        TEXT                        NOT NULL,
+  phone_number     TEXT                        NULL,
+  avatar_url       TEXT                        NULL,
+  bio              TEXT                        NULL,
+  rating_sum       INTEGER                     NOT NULL DEFAULT 0,
+  rating_count     INTEGER                     NOT NULL DEFAULT 0,
+  is_verified      BOOLEAN                     NOT NULL DEFAULT FALSE,
+  address_line1    TEXT                        NULL,
+  address_line2    TEXT                        NULL,
+  city             TEXT                        NULL,
+  state            TEXT                        NULL,
+  postal_code      TEXT                        NULL,
+  country          TEXT                        NULL,
+  -- PostGIS geolocation:
+  location         GEOGRAPHY(POINT, 4326)      NULL,
+  created_at       TIMESTAMPTZ                 NOT NULL DEFAULT NOW(),
+  updated_at       TIMESTAMPTZ                 NOT NULL DEFAULT NOW()
+);
+
+COMMENT ON TABLE public.profile IS 'User profiles containing personal information, contact details, and geolocation data.';
+
+-- A functional index for faster geospatial lookups
+CREATE INDEX IF NOT EXISTS idx_profile_location
+  ON public.profile
+  USING GIST (location);
+
+-- ===========================================================
+-- 4. Create Item, Booking, Rental, Request Tables
+-- ===========================================================
+
+-- 4.1. Table "item"
 CREATE TABLE public.item (
   id             UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
   owner_id       UUID           NOT NULL
@@ -89,6 +85,7 @@ CREATE TABLE public.item (
   price_monthly  NUMERIC(10,2)  NULL,
   currency       TEXT           NOT NULL    DEFAULT 'BRL'
                    REFERENCES public.currency(code) ON UPDATE CASCADE ON DELETE RESTRICT,
+  verified       BOOLEAN        NOT NULL DEFAULT FALSE,
   is_active      BOOLEAN        NOT NULL DEFAULT TRUE,
   created_at     TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
   updated_at     TIMESTAMPTZ    NOT NULL DEFAULT NOW()
@@ -96,7 +93,7 @@ CREATE TABLE public.item (
 
 COMMENT ON TABLE public.item IS 'Represents all items listed by users as available for rent.';
 
--- 3.2. Table “booking”
+-- 4.2. Table "booking"
 CREATE TABLE public.booking (
   id               UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
   item_id          UUID           NOT NULL
@@ -114,7 +111,7 @@ CREATE TABLE public.booking (
 
 COMMENT ON TABLE public.booking IS 'Stores requests made by users to rent an existing item from the catalog.';
 
--- 3.3. Table “rental”
+-- 4.3. Table "rental"
 CREATE TABLE public.rental (
   id               UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
   booking_id       UUID           NULL
@@ -136,7 +133,7 @@ CREATE TABLE public.rental (
 
 COMMENT ON TABLE public.rental IS 'Captures rental contracts that are currently active or completed between two users.';
 
--- 3.4. Table “request”
+-- 4.4. Table "request"
 CREATE TABLE public.request (
   id               UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id          UUID           NOT NULL
@@ -157,20 +154,20 @@ CREATE TABLE public.request (
 COMMENT ON TABLE public.request IS 'Allows users to express demand for items not yet listed by others.';
 
 -- ===========================================================
--- 4. Create Many-to-Many Linking Table: item_subcategory
+-- 5. Create Many-to-Many Linking Table: item_category
 -- ===========================================================
-CREATE TABLE public.item_subcategory (
+CREATE TABLE public.item_category (
   item_id        UUID      NOT NULL
                    REFERENCES public.item(id) ON DELETE CASCADE,
-  subcategory_id UUID      NOT NULL
-                   REFERENCES public.subcategory(id) ON DELETE CASCADE,
-  PRIMARY KEY (item_id, subcategory_id)
+  category_id    UUID      NOT NULL
+                   REFERENCES public.category(id) ON DELETE CASCADE,
+  PRIMARY KEY (item_id, category_id)
 );
 
-COMMENT ON TABLE public.item_subcategory IS 'Associates items with one or more subcategories.';
+COMMENT ON TABLE public.item_category IS 'Associates items with one or more categories.';
 
 -- ===========================================================
--- 5. Trigger Function for updated_at
+-- 6. Trigger Function for updated_at
 -- ===========================================================
 CREATE OR REPLACE FUNCTION public.update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -180,7 +177,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 5.1. Triggers on each table to keep updated_at current
+-- 6.1. Triggers on each table to keep updated_at current
 
 CREATE TRIGGER trg_currency_updated_at
   BEFORE UPDATE ON public.currency
@@ -190,16 +187,8 @@ CREATE TRIGGER trg_category_updated_at
   BEFORE UPDATE ON public.category
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
-CREATE TRIGGER trg_category_translation_updated_at
-  BEFORE UPDATE ON public.category_translation
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
-CREATE TRIGGER trg_subcategory_updated_at
-  BEFORE UPDATE ON public.subcategory
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
-CREATE TRIGGER trg_subcategory_translation_updated_at
-  BEFORE UPDATE ON public.subcategory_translation
+CREATE TRIGGER trg_profile_updated_at
+  BEFORE UPDATE ON public.profile
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
 CREATE TRIGGER trg_item_updated_at
@@ -218,25 +207,21 @@ CREATE TRIGGER trg_request_updated_at
   BEFORE UPDATE ON public.request
   FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
-CREATE TRIGGER trg_item_subcategory_updated_at
-  BEFORE UPDATE ON public.item_subcategory
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
 -- ===========================================================
--- 6. Indexes to Improve Performance (omitting small tables)
+-- 7. Indexes to Improve Performance (omitting small tables)
 -- ===========================================================
 
--- 6.1. item.owner_id
+-- 7.1. item.owner_id
 CREATE INDEX IF NOT EXISTS idx_item_owner_id
   ON public.item(owner_id);
 
--- 6.2. booking.item_id and booking.requester_id
+-- 7.2. booking.item_id and booking.requester_id
 CREATE INDEX IF NOT EXISTS idx_booking_item_id
   ON public.booking(item_id);
 CREATE INDEX IF NOT EXISTS idx_booking_requester_id
   ON public.booking(requester_id);
 
--- 6.3. rental.booking_id, rental.item_id, rental.renter_id, rental.owner_id
+-- 7.3. rental.booking_id, rental.item_id, rental.renter_id, rental.owner_id
 CREATE INDEX IF NOT EXISTS idx_rental_booking_id
   ON public.rental(booking_id);
 CREATE INDEX IF NOT EXISTS idx_rental_item_id
@@ -246,10 +231,12 @@ CREATE INDEX IF NOT EXISTS idx_rental_renter_id
 CREATE INDEX IF NOT EXISTS idx_rental_owner_id
   ON public.rental(owner_id);
 
--- 6.4. request.user_id
+-- 7.4. request.user_id
 CREATE INDEX IF NOT EXISTS idx_request_user_id
   ON public.request(user_id);
 
--- 6.5. item_subcategory.subcategory_id
-CREATE INDEX IF NOT EXISTS idx_item_subcategory_subcategory_id
-  ON public.item_subcategory(subcategory_id);
+-- 7.5. item_category indexes for efficient category queries
+CREATE INDEX IF NOT EXISTS idx_item_category_category_id
+  ON public.item_category(category_id);
+CREATE INDEX IF NOT EXISTS idx_item_category_item_id
+  ON public.item_category(item_id);
