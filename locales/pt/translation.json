@@ -38,6 +38,7 @@
     "title": "Buscar",
     "placeholder": "O que você está procurando?",
     "filters": "Filtros",
+    "relevance": "Relevância",
     "category": "Categoria",
     "price": "Preço",
     "location": "Localização",

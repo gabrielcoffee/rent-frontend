@@ -1,9 +1,7 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import CategoriesGridRegular from '../../components/CategoriesGridRegular';
-import ItemVerticalGrid from '../../components/ItemVerticalGrid';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
+import SearchHeader from '../../components/SearchHeader';
 
 // Mock data for categories
 const categories = [
@@ -112,38 +110,42 @@ export default function SearchPage() {
         router.push(`/item/${itemId}`);
     };
 
+    const handleSearch = () => {
+        // TODO: Implement search functionality
+        console.log('Search pressed:', searchQuery);
+    };
+
+    const handleFilter = () => {
+        // TODO: Implement filter functionality
+        console.log('Filter pressed');
+    };
+
+    const handleRelevance = () => {
+        // TODO: Implement relevance functionality
+        console.log('Relevance pressed');
+    };
+
+    const handleMap = () => {
+        // TODO: Implement map functionality
+        console.log('Map pressed');
+    };
+
     return (
         <SafeAreaView style={styles.container}>
-            {/* Search Bar and Filter */}
-            <View style={styles.searchContainer}>
-                <View style={styles.searchInputContainer}>
-                    <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
-                    <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search for items..."
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                    />
-                </View>
-                <TouchableOpacity style={styles.filterButton}>
-                    <Ionicons name="options-outline" size={20} color="#666" />
-                </TouchableOpacity>
+            {/* Search Header */}
+            <SearchHeader
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                onSearch={handleSearch}
+                onFilter={handleFilter}
+                onRelevance={handleRelevance}
+                onMap={handleMap}
+            />
+
+            {/* Content will go here */}
+            <View style={styles.content}>
+                {/* TODO: Add search results, categories, etc. */}
             </View>
-
-            <ScrollView style={styles.scrollContainer}>
-                {/* Categories Grid */}
-                <CategoriesGridRegular
-                    categories={categories}
-                    selectedCategory={selectedCategory}
-                    onCategoryPress={setSelectedCategory}
-                />
-
-                {/* Items Grid */}
-                <ItemVerticalGrid
-                    items={items}
-                    onItemPress={handleItemPress}
-                />
-            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -153,44 +155,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
     },
-    scrollContainer: {
+    content: {
         flex: 1,
-    },
-    searchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginHorizontal: 16,
-        marginTop: 16,
-        marginBottom: 32,
-        gap: 12,
-    },
-    filterButton: {
-        width: 48,
-        height: 48,
-        backgroundColor: '#fff',
-        borderRadius: 12,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: '#e0e0e0',
-    },
-    searchInputContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        paddingHorizontal: 12,
-        borderRadius: 12,
-        height: 48,
-        borderWidth: 1,
-        borderColor: '#e0e0e0',
-    },
-    searchIcon: {
-        marginRight: 8,
-    },
-    searchInput: {
-        flex: 1,
-        fontSize: 16,
-        color: '#333',
+        paddingHorizontal: 16,
     },
 });

@@ -39,10 +39,14 @@ export default function StepHeader({ currentStep }: StepHeaderProps) {
                                     color={currentStep >= step.number ? '#fff' : '#999'} 
                                 />
                             </View>
-                            <Text style={[
-                                styles.stepTitle,
-                                currentStep >= step.number && styles.activeStepTitle
-                            ]}>
+                            <Text
+                                style={[
+                                    styles.stepTitle,
+                                    currentStep >= step.number && styles.activeStepTitle
+                                ]}
+                                numberOfLines={1}
+                                ellipsizeMode="tail"
+                            >
                                 {step.number}. {step.title}
                             </Text>
                         </View>
@@ -76,7 +80,8 @@ const styles = StyleSheet.create({
     },
     stepItem: {
         alignItems: 'center',
-        flex: 1,
+        minWidth: 60, // Ensures enough space for the text
+        paddingHorizontal: 4,
     },
     stepCircle: {
         width: 40,
@@ -104,7 +109,8 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: '#999',
         textAlign: 'center',
-        fontWeight: '400',
+        minWidth: 40,
+        paddingHorizontal: 2,
     },
     activeStepTitle: {
         color: '#8B0000',
