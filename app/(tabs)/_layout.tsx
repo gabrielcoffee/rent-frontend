@@ -52,7 +52,8 @@ export default function TabLayout() {
                         title: t('navigation.announce'),
                         tabBarIcon: ({color, focused}) => (
                             <Ionicons name={focused ? 'megaphone' : 'megaphone-outline'} color={color} size={24}></Ionicons>
-                        )
+                        ),
+                        tabBarStyle: { display: 'none' }
                     }}
                 />
 

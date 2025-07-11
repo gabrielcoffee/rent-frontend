@@ -11,6 +11,7 @@
     "confirm": "Confirmar",
     "back": "Atrás",
     "next": "Siguiente",
+    "previous": "Anterior",
     "done": "Completado",
     "language": "Idioma",
     "information": "Información",
@@ -66,7 +67,14 @@
     "price": "Precio",
     "location": "Ubicación",
     "photos": "Fotos",
-    "publish": "Publicar"
+    "publish": "Publicar",
+    "createListing": "Crear Anuncio",
+    "step": "Paso {{step}} de {{total}}",
+    "step1Title": "Detalles",
+    "step2Title": "Precio",
+    "step3Title": "Recogida",
+    "step4Title": "Términos",
+    "publishListing": "Publicar Anuncio"
   },
   "item": {
     "rent": "Alquilar",

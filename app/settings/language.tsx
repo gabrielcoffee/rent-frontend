@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SettingsCheckButton } from '../../components/SettingsCheckButton';
+import BorderButton from '../../components/buttons/BorderButton';
+import SolidButton from '../../components/buttons/SolidButton';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function LanguagePage() {
@@ -63,12 +65,15 @@ export default function LanguagePage() {
 
             {/* Bottom Buttons */}
             <View style={styles.bottomButtons}>
-                <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
-                    <Text style={styles.cancelButtonText}>{t('common.cancel')}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
-                    <Text style={styles.confirmButtonText}>{t('common.confirm')}</Text>
-                </TouchableOpacity>
+                <BorderButton 
+                    title={t('common.cancel')} 
+                    onPress={handleCancel} 
+                />
+                <SolidButton 
+                    title={t('common.confirm')} 
+                    onPress={handleConfirm}
+                    backgroundColor="#8B0000"
+                />
             </View>
         </SafeAreaView>
     );
@@ -78,7 +83,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f5f5f5',
-        paddingBottom: 24
+        marginBottom: 24,
     },
     scrollView: {
         flex: 1,
@@ -111,29 +116,5 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderTopColor: '#e0e0e0',
         gap: 12,
-    },
-    cancelButton: {
-        flex: 1,
-        paddingVertical: 16,
-        borderRadius: 8,
-        backgroundColor: '#f1f3f4',
-        alignItems: 'center',
-    },
-    cancelButtonText: {
-        fontSize: 16,
-        color: '#666',
-        fontWeight: '600',
-    },
-    confirmButton: {
-        flex: 1,
-        paddingVertical: 16,
-        borderRadius: 8,
-        backgroundColor: '#8B0000',
-        alignItems: 'center',
-    },
-    confirmButtonText: {
-        fontSize: 16,
-        color: '#fff',
-        fontWeight: '600',
     },
 }); 

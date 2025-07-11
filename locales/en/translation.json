@@ -11,6 +11,7 @@
     "confirm": "Confirm",
     "back": "Back",
     "next": "Next",
+    "previous": "Previous",
     "done": "Done",
     "language": "Language",
     "information": "Information",
@@ -66,7 +67,14 @@
     "price": "Price",
     "location": "Location",
     "photos": "Photos",
-    "publish": "Publish"
+    "publish": "Publish",
+    "createListing": "Create Listing",
+    "step": "Step {{step}} of {{total}}",
+    "step1Title": "Details",
+    "step2Title": "Pricing",
+    "step3Title": "Pickup",
+    "step4Title": "Terms",
+    "publishListing": "Publish Listing"
   },
   "item": {
     "rent": "Rent",
