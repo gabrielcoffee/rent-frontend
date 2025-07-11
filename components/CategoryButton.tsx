@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         width: 56,
         height: 56,
         borderRadius: 28,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#fff', // White background for all
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 4,
@@ -45,9 +45,10 @@ const styles = StyleSheet.create({
         borderColor: '#e0e0e0',
     },
     selectedEmojiContainer: {
-        backgroundColor: '#ffebee', // Light red background
+        backgroundColor: '#e6f4ea', // Subtle green background
         borderWidth: 2,
-        borderColor: '#8B0000', // Dark red border
+        borderColor: '#3a5d47', // Subtle dark green border
+        shadowColor: '#3a5d47',
         shadowOffset: {
             width: 0,
             height: 4,
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     selectedLabel: {
-        color: '#8B0000', // Dark red
+        borderColor: '#3a5d47', // Subtle dark green border
         fontWeight: '500',
     },
 }); 

@@ -2,9 +2,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MenuButton } from '../../components/MenuButton';
+import ProfileHeader from '../../components/ProfileHeader';
 
 type MenuButtonData = {
     icon: keyof typeof Ionicons.glyphMap;
@@ -51,14 +52,7 @@ export default function ProfilePage() {
 
     return (
         <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
-            {/* Header */}
-            <View style={styles.header}>
-                <Text style={styles.headerTitle}>{t('profile.title')}</Text>
-                <TouchableOpacity>
-                    <Ionicons name="notifications-outline" size={28} color="#333" />
-                </TouchableOpacity>
-            </View>
-
+            <ProfileHeader />
             <ScrollView style={styles.scrollView}>
                 {/* Profile Info Section */}
                 <View style={styles.profileSection}>

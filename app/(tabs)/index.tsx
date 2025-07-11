@@ -1,9 +1,8 @@
 import CategoriesGrid from '@/components/CategoriesGrid';
+import ExploreHeader from '@/components/ExploreHeader';
 import ItemGrid from '@/components/ItemGrid';
-import { Ionicons } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Category = {
@@ -92,18 +91,7 @@ export default function HomePage() {
 
     return (
         <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
-            <StatusBar style="dark" />
-            {/* Header */}
-            <View style={styles.header}>
-                <View style={styles.locationContainer}>
-                    <Ionicons name="map-outline" size={28} color="#333" />
-                    <Text style={styles.locationText}>Curitiba, PR</Text>
-                </View>
-                <TouchableOpacity>
-                    <Ionicons name="notifications-outline" size={28} color="#333" />
-                </TouchableOpacity>
-            </View>
-
+            <ExploreHeader />
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
                 {/* Categories */}
                 <CategoriesGrid
@@ -111,7 +99,6 @@ export default function HomePage() {
                     selectedCategories={selectedCategories}
                     onCategoryPress={handleCategoryPress}
                 />
-
                 {/* Item Grids */}
                 <View style={styles.gridsContainer}>
                     <ItemGrid 
@@ -119,13 +106,11 @@ export default function HomePage() {
                         items={exampleItems} 
                         onItemPress={handleItemPress}
                     />
-                    
                     <ItemGrid 
                         title="Recommended" 
                         items={exampleItems} 
                         onItemPress={handleItemPress}
                     />
-                    
                     <ItemGrid 
                         title="Popular" 
                         items={exampleItems} 

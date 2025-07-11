@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -20,7 +21,10 @@ export default function ItemSearchCard({ itemName, itemImage, priceDay, distance
                 <Text style={styles.itemName} numberOfLines={1}>{itemName}</Text>
                 <View style={styles.detailsContainer}>
                     <Text style={styles.priceText}>${priceDay}/day</Text>
-                    <Text style={styles.distanceText}>{distance}km</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Ionicons name="location-outline" size={15} color="#666" style={{ marginRight: 3 }} />
+                        <Text style={styles.distanceText}>{distance}km</Text>
+                    </View>
                 </View>
             </View>
         </TouchableOpacity>
