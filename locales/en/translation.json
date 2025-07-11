@@ -75,7 +75,9 @@
     "step2Title": "Pricing",
     "step3Title": "Pickup",
     "step4Title": "Terms",
-    "publishListing": "Publish Listing"
+    "publishListing": "Publish Listing",
+    "condition": "Condition",
+    "descriptionPlaceholder": "Describe your item, its features, and any special instructions..."
   },
   "item": {
     "rent": "Rent",
@@ -85,5 +87,26 @@
     "owner": "Owner",
     "reviews": "Reviews",
     "similarItems": "Similar Items"
+  },
+  "categories": {
+    "sports": "Sports",
+    "tech": "Tech",
+    "creative": "Creative",
+    "house": "House",
+    "tools": "Tools",
+    "music": "Music",
+    "outdoor": "Outdoor",
+    "fitness": "Fitness",
+    "gaming": "Gaming",
+    "party": "Party",
+    "camping": "Camping",
+    "photography": "Photo"
+  },
+  "conditions": {
+    "new": "New",
+    "like_new": "Like New",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor"
   }
 } 

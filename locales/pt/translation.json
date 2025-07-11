@@ -76,7 +76,10 @@
     "step2Title": "Preço",
     "step3Title": "Retirada",
     "step4Title": "Termos",
-    "publishListing": "Publicar Anúncio"
+    "publishListing": "Publicar Anúncio",
+    "condition": "Condição",
+    "descriptionPlaceholder": "Descreva seu item, suas características e instruções especiais...",
+    "photosLimit": "Até 10 fotos"
   },
   "item": {
     "rent": "Alugar",
@@ -86,5 +89,26 @@
     "owner": "Proprietário",
     "reviews": "Avaliações",
     "similarItems": "Itens Similares"
+  },
+  "categories": {
+    "sports": "Esportes",
+    "tech": "Tecnologia",
+    "creative": "Criatividade",
+    "house": "Casa",
+    "tools": "Ferramentas",
+    "music": "Música",
+    "outdoor": "Ao Ar Livre",
+    "fitness": "Fitness",
+    "gaming": "Jogos",
+    "party": "Festa",
+    "camping": "Camping",
+    "photography": "Foto"
+  },
+  "conditions": {
+    "new": "Novo",
+    "like_new": "Conservado",
+    "good": "Bom",
+    "fair": "Regular",
+    "poor": "Bem Usado"
   }
 } 

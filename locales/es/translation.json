@@ -75,7 +75,9 @@
     "step2Title": "Precio",
     "step3Title": "Recogida",
     "step4Title": "Términos",
-    "publishListing": "Publicar Anuncio"
+    "publishListing": "Publicar Anuncio",
+    "condition": "Condición",
+    "descriptionPlaceholder": "Describe tu artículo, sus características e instrucciones especiales..."
   },
   "item": {
     "rent": "Alquilar",
@@ -85,5 +87,26 @@
     "owner": "Propietario",
     "reviews": "Reseñas",
     "similarItems": "Artículos Similares"
+  },
+  "categories": {
+    "sports": "Deportes",
+    "tech": "Tecnología",
+    "creative": "Creativo",
+    "house": "Casa",
+    "tools": "Herramientas",
+    "music": "Música",
+    "outdoor": "Aire Libre",
+    "fitness": "Fitness",
+    "gaming": "Juegos",
+    "party": "Fiesta",
+    "camping": "Camping",
+    "photography": "Foto"
+  },
+  "conditions": {
+    "new": "Nuevo",
+    "like_new": "Conservado",
+    "good": "Bueno",
+    "fair": "Regular",
+    "poor": "Bien Usado"
   }
 } 
