@@ -1,15 +1,21 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { MenuButton } from '../../components/MenuButton';
 
-type MenuButton = {
+type MenuButtonData = {
     icon: keyof typeof Ionicons.glyphMap;
     label: string;
     onPress: () => void;
 }
 
 export default function ProfilePage() {
+    const { t } = useTranslation();
+    const router = useRouter();
+
     const profile = {
         username: "johnbopp",
         display_name: "João Bopp",
@@ -24,39 +30,30 @@ export default function ProfilePage() {
         ? (profile.rating_sum / profile.rating_count).toFixed(1) 
         : "0.0";
 
-    const mainMenuButtons: MenuButton[] = [
-        { icon: 'person-outline', label: 'Account', onPress: () => {} },
-        { icon: 'lock-closed-outline', label: 'Privacy', onPress: () => {} },
-        { icon: 'information-circle-outline', label: 'Information', onPress: () => {} },
-        { icon: 'wallet-outline', label: 'Payments', onPress: () => {} },
-        { icon: 'heart-outline', label: 'Favorites', onPress: () => {} },
-        { icon: 'swap-horizontal-outline', label: 'Lending', onPress: () => {} },
-        { icon: 'location-outline', label: 'Addresses', onPress: () => {} },
+    const mainMenuButtons: MenuButtonData[] = [
+        { icon: 'person-outline', label: t('profile.editProfile'), onPress: () => {} },
+        { icon: 'lock-closed-outline', label: t('profile.settings'), onPress: () => {} },
+        { icon: 'information-circle-outline', label: t('common.information'), onPress: () => {} },
+        { icon: 'wallet-outline', label: t('common.payments'), onPress: () => {} },
+        { icon: 'heart-outline', label: t('profile.favorites'), onPress: () => {} },
+        { icon: 'swap-horizontal-outline', label: t('profile.myItems'), onPress: () => {} },
+        { icon: 'location-outline', label: t('common.location'), onPress: () => {} },
+        { icon: 'language-outline', label: t('common.language'), onPress: () => router.push('/settings/language') },
     ];
 
-    const secondaryMenuButtons: MenuButton[] = [
-        { icon: 'help-circle-outline', label: 'Help', onPress: () => {} },
-        { icon: 'settings-outline', label: 'Settings', onPress: () => {} },
-        { icon: 'shield-checkmark-outline', label: 'Safety', onPress: () => {} },
-        { icon: 'document-text-outline', label: 'Legal', onPress: () => {} },
-        { icon: 'log-out-outline', label: 'Log Out', onPress: () => {} },
+    const secondaryMenuButtons: MenuButtonData[] = [
+        { icon: 'help-circle-outline', label: t('common.help'), onPress: () => {} },
+        { icon: 'settings-outline', label: t('profile.settings'), onPress: () => {} },
+        { icon: 'shield-checkmark-outline', label: t('common.safety'), onPress: () => {} },
+        { icon: 'document-text-outline', label: t('common.legal'), onPress: () => {} },
+        { icon: 'log-out-outline', label: t('profile.logout'), onPress: () => {} },
     ];
-
-    const MenuButton = ({ icon, label, onPress }: MenuButton) => (
-        <TouchableOpacity style={styles.menuButton} onPress={onPress}>
-            <View style={styles.menuButtonContent}>
-                <Ionicons name={icon} size={24} color="#333" />
-                <Text style={styles.menuButtonText}>{label}</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={20} color="#666" />
-        </TouchableOpacity>
-    );
 
     return (
         <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
             {/* Header */}
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>Profile</Text>
+                <Text style={styles.headerTitle}>{t('profile.title')}</Text>
                 <TouchableOpacity>
                     <Ionicons name="notifications-outline" size={28} color="#333" />
                 </TouchableOpacity>
@@ -76,7 +73,7 @@ export default function ProfilePage() {
                             <View style={styles.ratingContainer}>
                                 <Ionicons name="star" size={16} color="#8B0000" />
                                 <Text style={styles.ratingText}>{averageRating}</Text>
-                                <Text style={styles.ratingCount}>({profile.rating_count} reviews)</Text>
+                                <Text style={styles.ratingCount}>({profile.rating_count} {t('item.reviews')})</Text>
                             </View>
                         </View>
                     </View>
@@ -84,11 +81,11 @@ export default function ProfilePage() {
                     <View style={styles.statsContainer}>
                         <View style={styles.statItem}>
                             <Text style={styles.statValue}>{profile.items_rented}</Text>
-                            <Text style={styles.statLabel}>Items Rented</Text>
+                            <Text style={styles.statLabel}>{t('profile.rentedItems')}</Text>
                         </View>
                         <View style={styles.statItem}>
                             <Text style={styles.statValue}>{profile.items_announced}</Text>
-                            <Text style={styles.statLabel}>Items Announced</Text>
+                            <Text style={styles.statLabel}>{t('items.myItems')}</Text>
                         </View>
                     </View>
                 </View>
@@ -204,22 +201,5 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderColor: '#e0e0e0',
-    },
-    menuButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingVertical: 16,
-        paddingHorizontal: 16,
-        backgroundColor: '#fff',
-    },
-    menuButtonContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    menuButtonText: {
-        color: '#333',
-        fontSize: 16,
-        marginLeft: 16,
     },
 });

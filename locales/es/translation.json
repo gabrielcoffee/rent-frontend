@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Buscar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "confirm": "Confirmar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "done": "Completado",
+    "language": "Idioma",
+    "information": "Información",
+    "payments": "Pagos",
+    "help": "Ayuda",
+    "safety": "Seguridad",
+    "legal": "Legal"
+  },
+  "navigation": {
+    "explore": "Explorar",
+    "search": "Buscar",
+    "announce": "Anunciar",
+    "items": "Artículos",
+    "profile": "Perfil"
+  },
+  "home": {
+    "title": "Bienvenido",
+    "explore": "Explorar Artículos",
+    "recentItems": "Artículos Recientes",
+    "categories": "Categorías"
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "¿Qué estás buscando?",
+    "filters": "Filtros",
+    "category": "Categoría",
+    "price": "Precio",
+    "location": "Ubicación",
+    "noResults": "No se encontraron resultados"
+  },
+  "profile": {
+    "title": "Perfil",
+    "settings": "Configuración",
+    "myItems": "Mis Artículos",
+    "rentedItems": "Artículos Alquilados",
+    "favorites": "Favoritos",
+    "editProfile": "Editar Perfil",
+    "logout": "Cerrar Sesión"
+  },
+  "items": {
+    "title": "Artículos",
+    "myItems": "Mis Artículos",
+    "rentedItems": "Artículos Alquilados",
+    "addItem": "Agregar Artículo",
+    "noItems": "No se encontraron artículos"
+  },
+  "announce": {
+    "title": "Anunciar",
+    "newItem": "Nuevo Artículo",
+    "itemName": "Nombre del Artículo",
+    "description": "Descripción",
+    "category": "Categoría",
+    "price": "Precio",
+    "location": "Ubicación",
+    "photos": "Fotos",
+    "publish": "Publicar"
+  },
+  "item": {
+    "rent": "Alquilar",
+    "contact": "Contactar",
+    "description": "Descripción",
+    "location": "Ubicación",
+    "owner": "Propietario",
+    "reviews": "Reseñas",
+    "similarItems": "Artículos Similares"
+  }
+} 

@@ -1,0 +1,80 @@
+{
+  "common": {
+    "search": "Search",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done",
+    "language": "Language",
+    "information": "Information",
+    "payments": "Payments",
+    "help": "Help",
+    "safety": "Safety",
+    "legal": "Legal"
+  },
+  "navigation": {
+    "explore": "Explore",
+    "search": "Search",
+    "announce": "Announce",
+    "items": "Items",
+    "profile": "Profile"
+  },
+  "home": {
+    "title": "Welcome",
+    "explore": "Explore Items",
+    "recentItems": "Recent Items",
+    "categories": "Categories"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "What are you looking for?",
+    "filters": "Filters",
+    "category": "Category",
+    "price": "Price",
+    "location": "Location",
+    "noResults": "No results found"
+  },
+  "profile": {
+    "title": "Profile",
+    "settings": "Settings",
+    "myItems": "My Items",
+    "rentedItems": "Rented Items",
+    "favorites": "Favorites",
+    "editProfile": "Edit Profile",
+    "logout": "Logout"
+  },
+  "items": {
+    "title": "Items",
+    "myItems": "My Items",
+    "rentedItems": "Rented Items",
+    "addItem": "Add Item",
+    "noItems": "No items found"
+  },
+  "announce": {
+    "title": "Announce",
+    "newItem": "New Item",
+    "itemName": "Item Name",
+    "description": "Description",
+    "category": "Category",
+    "price": "Price",
+    "location": "Location",
+    "photos": "Photos",
+    "publish": "Publish"
+  },
+  "item": {
+    "rent": "Rent",
+    "contact": "Contact",
+    "description": "Description",
+    "location": "Location",
+    "owner": "Owner",
+    "reviews": "Reviews",
+    "similarItems": "Similar Items"
+  }
+} 

@@ -2,9 +2,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
+    const { t } = useTranslation();
+
     return (
         <>
             <StatusBar style="dark" />
@@ -26,7 +28,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="index"
                     options={{
-                        title: 'Explore',
+                        title: t('navigation.explore'),
                         tabBarIcon: ({ color, focused }) => (
                             <Ionicons name={focused ? "home" : "home-outline"} color={color} size={24}></Ionicons>
                         ),
@@ -36,7 +38,7 @@ export default function TabLayout() {
                 <Tabs.Screen 
                     name="search" 
                     options={{
-                        title: "Search",
+                        title: t('navigation.search'),
                         tabBarIcon: ({color, focused}) => (
                             <Ionicons name={focused ? 'search' : "search-outline"} color={color} size={24}></Ionicons>
                         )
@@ -47,7 +49,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="announce" 
                     options={{ 
-                        title: "Announce",
+                        title: t('navigation.announce'),
                         tabBarIcon: ({color, focused}) => (
                             <Ionicons name={focused ? 'megaphone' : 'megaphone-outline'} color={color} size={24}></Ionicons>
                         )
@@ -57,7 +59,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="items" 
                     options={{ 
-                        title: "Items",
+                        title: t('navigation.items'),
                         tabBarIcon: ({color, focused}) => (
                             <Ionicons name={focused ? 'file-tray-stacked' : 'file-tray-stacked-outline'} color={color} size={24}></Ionicons>
                         )
@@ -67,7 +69,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="profile" 
                     options={{ 
-                        title: "Profile",
+                        title: t('navigation.profile'),
                         tabBarIcon: ({color, focused}) => (
                             <Ionicons name={focused ? 'person-circle' : 'person-circle-outline'} color={color} size={24}></Ionicons>
                         )

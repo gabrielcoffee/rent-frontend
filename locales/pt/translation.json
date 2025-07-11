@@ -1,0 +1,81 @@
+{
+  "common": {
+    "search": "Buscar",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "confirm": "Confirmar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "done": "Concluído",
+    "language": "Idioma",
+    "information": "Informações",
+    "payments": "Pagamentos",
+    "help": "Ajuda",
+    "safety": "Segurança",
+    "legal": "Legal",
+    "location": "Localização"
+  },
+  "navigation": {
+    "explore": "Explorar",
+    "search": "Buscar",
+    "announce": "Anunciar",
+    "items": "Itens",
+    "profile": "Perfil"
+  },
+  "home": {
+    "title": "Bem-vindo",
+    "explore": "Explorar Itens",
+    "recentItems": "Itens Recentes",
+    "categories": "Categorias"
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "O que você está procurando?",
+    "filters": "Filtros",
+    "category": "Categoria",
+    "price": "Preço",
+    "location": "Localização",
+    "noResults": "Nenhum resultado encontrado"
+  },
+  "profile": {
+    "title": "Perfil",
+    "settings": "Configurações",
+    "myItems": "Meus Itens",
+    "rentedItems": "Itens Alugados",
+    "favorites": "Favoritos",
+    "editProfile": "Editar Perfil",
+    "logout": "Sair"
+  },
+  "items": {
+    "title": "Itens",
+    "myItems": "Meus Itens",
+    "rentedItems": "Itens Alugados",
+    "addItem": "Adicionar Item",
+    "noItems": "Nenhum item encontrado"
+  },
+  "announce": {
+    "title": "Anunciar",
+    "newItem": "Novo Item",
+    "itemName": "Nome do Item",
+    "description": "Descrição",
+    "category": "Categoria",
+    "price": "Preço",
+    "location": "Localização",
+    "photos": "Fotos",
+    "publish": "Publicar"
+  },
+  "item": {
+    "rent": "Alugar",
+    "contact": "Contatar",
+    "description": "Descrição",
+    "location": "Localização",
+    "owner": "Proprietário",
+    "reviews": "Avaliações",
+    "similarItems": "Itens Similares"
+  }
+} 
