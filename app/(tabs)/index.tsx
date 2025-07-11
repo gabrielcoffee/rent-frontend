@@ -9,22 +9,22 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 type Category = {
     id: string;
     label: string;
-    icon: keyof typeof Ionicons.glyphMap;
+    emoji: string;
 };
 
 const CATEGORIES: Category[] = [
-    { id: 'sports', label: 'Sports', icon: 'basketball-outline' },
-    { id: 'tech', label: 'Tech', icon: 'laptop-outline' },
-    { id: 'creative', label: 'Creative', icon: 'camera-outline' },
-    { id: 'house', label: 'House', icon: 'home-outline' },
-    { id: 'tools', label: 'Tools', icon: 'construct-outline' },
-    { id: 'music', label: 'Music', icon: 'musical-notes-outline' },
-    { id: 'outdoor', label: 'Outdoor', icon: 'leaf-outline' },
-    { id: 'fitness', label: 'Fitness', icon: 'fitness-outline' },
-    { id: 'gaming', label: 'Gaming', icon: 'game-controller-outline' },
-    { id: 'party', label: 'Party', icon: 'wine-outline' },
-    { id: 'camping', label: 'Camping', icon: 'compass-outline' },
-    { id: 'photography', label: 'Photo', icon: 'aperture-outline' },
+    { id: 'sports', label: 'Sports', emoji: '⚽' },
+    { id: 'tech', label: 'Tech', emoji: '💻' },
+    { id: 'creative', label: 'Creative', emoji: '🎨' },
+    { id: 'house', label: 'House', emoji: '🏠' },
+    { id: 'tools', label: 'Tools', emoji: '🔧' },
+    { id: 'music', label: 'Music', emoji: '🎵' },
+    { id: 'outdoor', label: 'Outdoor', emoji: '🌲' },
+    { id: 'fitness', label: 'Fitness', emoji: '💪' },
+    { id: 'gaming', label: 'Gaming', emoji: '🎮' },
+    { id: 'party', label: 'Party', emoji: '🎉' },
+    { id: 'camping', label: 'Camping', emoji: '⛺' },
+    { id: 'photography', label: 'Photo', emoji: '📸' },
 ];
 
 const exampleItems = [
@@ -73,7 +73,17 @@ const exampleItems = [
 ];
 
 export default function HomePage() {
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    const handleCategoryPress = (categoryId: string) => {
+        setSelectedCategories(prev => {
+            if (prev.includes(categoryId)) {
+                return prev.filter(id => id !== categoryId);
+            } else {
+                return [...prev, categoryId];
+            }
+        });
+    };
 
     const handleItemPress = (itemId: string) => {
         // TODO: Navigate to item details
@@ -98,10 +108,8 @@ export default function HomePage() {
                 {/* Categories */}
                 <CategoriesGrid
                     categories={CATEGORIES}
-                    selectedCategory={selectedCategory}
-                    onCategoryPress={(categoryId) => setSelectedCategory(
-                        selectedCategory === categoryId ? null : categoryId
-                    )}
+                    selectedCategories={selectedCategories}
+                    onCategoryPress={handleCategoryPress}
                 />
 
                 {/* Item Grids */}

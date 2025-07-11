@@ -1,26 +1,21 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type Props = {
-    icon: keyof typeof Ionicons.glyphMap;
+    emoji: string;
     label: string;
     isSelected: boolean;
     onPress: () => void;
 };
 
-export default function CategoryButton({ icon, label, isSelected, onPress }: Props) {
+export default function CategoryButton({ emoji, label, isSelected, onPress }: Props) {
     return (
         <TouchableOpacity 
             style={[styles.container, isSelected && styles.selectedContainer]} 
             onPress={onPress}
         >
-            <View style={[styles.iconContainer, isSelected && styles.selectedIconContainer]}>
-                <Ionicons 
-                    name={icon} 
-                    size={24} 
-                    color={isSelected ? '#fff' : '#333'} 
-                />
+            <View style={[styles.emojiContainer, isSelected && styles.selectedEmojiContainer]}>
+                <Text style={styles.emoji}>{emoji}</Text>
             </View>
             <Text style={[styles.label, isSelected && styles.selectedLabel]}>
                 {label}
@@ -38,7 +33,7 @@ const styles = StyleSheet.create({
     selectedContainer: {
         // No additional styles needed for selected container
     },
-    iconContainer: {
+    emojiContainer: {
         width: 56,
         height: 56,
         borderRadius: 28,
@@ -49,9 +44,20 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#e0e0e0',
     },
-    selectedIconContainer: {
-        backgroundColor: '#8B0000', // Dark red
-        borderColor: '#8B0000',
+    selectedEmojiContainer: {
+        backgroundColor: '#ffebee', // Light red background
+        borderWidth: 2,
+        borderColor: '#8B0000', // Dark red border
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 8, // For Android shadow
+    },
+    emoji: {
+        fontSize: 24,
     },
     label: {
         fontSize: 12,

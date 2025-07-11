@@ -1,4 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import CategoryButton from './CategoryButton';
@@ -6,16 +5,16 @@ import CategoryButton from './CategoryButton';
 type Category = {
     id: string;
     label: string;
-    icon: keyof typeof Ionicons.glyphMap;
+    emoji: string;
 };
 
 type Props = {
     categories: Category[];
-    selectedCategory: string | null;
+    selectedCategories: string[];
     onCategoryPress: (categoryId: string) => void;
 };
 
-export default function CategoriesGrid({ categories, selectedCategory, onCategoryPress } : Props) {
+export default function CategoriesGrid({ categories, selectedCategories, onCategoryPress } : Props) {
     // Split categories into two rows
     const firstRowCategories = categories.slice(0, 6);
     const secondRowCategories = categories.slice(6);
@@ -35,9 +34,9 @@ export default function CategoriesGrid({ categories, selectedCategory, onCategor
                         {firstRowCategories.map(category => (
                             <CategoryButton
                                 key={category.id}
-                                icon={category.icon}
+                                emoji={category.emoji}
                                 label={category.label}
-                                isSelected={selectedCategory === category.id}
+                                isSelected={selectedCategories.includes(category.id)}
                                 onPress={() => onCategoryPress(category.id)}
                             />
                         ))}
@@ -48,9 +47,9 @@ export default function CategoriesGrid({ categories, selectedCategory, onCategor
                         {secondRowCategories.map(category => (
                             <CategoryButton
                                 key={category.id}
-                                icon={category.icon}
+                                emoji={category.emoji}
                                 label={category.label}
-                                isSelected={selectedCategory === category.id}
+                                isSelected={selectedCategories.includes(category.id)}
                                 onPress={() => onCategoryPress(category.id)}
                             />
                         ))}
