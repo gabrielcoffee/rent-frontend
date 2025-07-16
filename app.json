@@ -10,14 +10,23 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rent.rent"
+      "bundleIdentifier": "com.rent.rent",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.rent.rent",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDjLNDp9d4cJcDfuVwiLCbK4bnWXUwftP0"
+        }
+      }
     },
     "web": {
       "bundler": "metro",
@@ -42,7 +51,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "125ef45d-9653-4708-a522-8583baeed7ca"
+        "projectId": "a619f948-08bf-4ecc-9cbf-aba987be31eb"
       }
     },
     "owner": "gabrielcoffee"

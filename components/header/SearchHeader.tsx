@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import BorderButton from './buttons/BorderButton';
+import BorderButton from '../buttons/BorderButton';
 
 type SearchHeaderProps = {
     searchQuery: string;

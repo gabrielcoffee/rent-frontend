@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import CategoryButton from './CategoryButton';
+import CategoryButton from '../CategoryButton';
 
 type Category = {
     id: string;

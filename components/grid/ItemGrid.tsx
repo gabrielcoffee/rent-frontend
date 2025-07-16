@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import RentableItemCard from './RentableItemCard';
+import RentableItemCard from '../cards/RentableItemCard';
 
 type Item = {
     id: string;

@@ -1,14 +1,134 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+interface RentalTerms {
+    noSmoking: boolean;
+    noPets: boolean;
+    returnCleaned: boolean;
+    damageDeposit: boolean;
+    lateReturnFee: boolean;
+    mustProvideId: boolean;
+    insuranceRequired: boolean;
+    supervisedUse: boolean;
+}
 
 export default function Step4Terms() {
-    return (
-        <View style={styles.container}>
-            <View style={styles.content}>
-                <Text style={styles.text}>Step 4: Terms</Text>
-                <Text style={styles.subtext}>Content coming soon...</Text>
+    const { t } = useTranslation();
+
+    const [rentalTerms, setRentalTerms] = useState<RentalTerms>({
+        noSmoking: false,
+        noPets: false,
+        returnCleaned: false,
+        damageDeposit: false,
+        lateReturnFee: false,
+        mustProvideId: false,
+        insuranceRequired: false,
+        supervisedUse: false,
+    });
+
+    const [additionalTerms, setAdditionalTerms] = useState('');
+
+    const toggleTerm = (term: keyof RentalTerms) => {
+        setRentalTerms(prev => ({
+            ...prev,
+            [term]: !prev[term],
+        }));
+    };
+
+    const CheckboxItem = ({ 
+        checked, 
+        onPress, 
+        title 
+    }: { 
+        checked: boolean; 
+        onPress: () => void; 
+        title: string; 
+    }) => (
+        <TouchableOpacity style={styles.checkboxContainer} onPress={onPress}>
+            <View style={[styles.checkbox, checked && styles.checkboxChecked]}>
+                {checked && <Text style={styles.checkmark}>✓</Text>}
             </View>
-        </View>
+            <Text style={styles.checkboxLabel}>{title}</Text>
+        </TouchableOpacity>
+    );
+
+    return (
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            {/* Section Title */}
+            <Text style={styles.sectionTitle}>{t('announce.step4Title', 'Terms & Conditions')}</Text>
+
+            {/* Rental Terms Section */}
+            <Text style={styles.sectionSubtitle}>
+                {t('announce.rentalTerms', 'Rental Terms')}
+            </Text>
+
+            <CheckboxItem
+                checked={rentalTerms.noSmoking}
+                onPress={() => toggleTerm('noSmoking')}
+                title={t('announce.noSmoking', 'No smoking')}
+            />
+
+            <CheckboxItem
+                checked={rentalTerms.noPets}
+                onPress={() => toggleTerm('noPets')}
+                title={t('announce.noPets', 'No pets')}
+            />
+
+            <CheckboxItem
+                checked={rentalTerms.returnCleaned}
+                onPress={() => toggleTerm('returnCleaned')}
+                title={t('announce.returnCleaned', 'Return cleaned')}
+            />
+
+            <CheckboxItem
+                checked={rentalTerms.damageDeposit}
+                onPress={() => toggleTerm('damageDeposit')}
+                title={t('announce.damageDeposit', 'Damage deposit required')}
+            />
+
+            <CheckboxItem
+                checked={rentalTerms.lateReturnFee}
+                onPress={() => toggleTerm('lateReturnFee')}
+                title={t('announce.lateReturnFee', 'Late return fee applies')}
+            />
+
+            <CheckboxItem
+                checked={rentalTerms.mustProvideId}
+                onPress={() => toggleTerm('mustProvideId')}
+                title={t('announce.mustProvideId', 'Must provide ID')}
+            />
+
+            <CheckboxItem
+                checked={rentalTerms.insuranceRequired}
+                onPress={() => toggleTerm('insuranceRequired')}
+                title={t('announce.insuranceRequired', 'Insurance required')}
+            />
+
+            <CheckboxItem
+                checked={rentalTerms.supervisedUse}
+                onPress={() => toggleTerm('supervisedUse')}
+                title={t('announce.supervisedUse', 'Supervised use only')}
+            />
+
+            {/* Additional Terms Section */}
+            <Text style={styles.sectionSubtitle}>
+                {t('announce.additionalTerms', 'Additional Terms (Optional)')}
+            </Text>
+
+            <TextInput
+                style={styles.additionalTermsInput}
+                value={additionalTerms}
+                onChangeText={setAdditionalTerms}
+                placeholder={t('announce.additionalTermsPlaceholder', 'Add any specific terms or conditions for your rental...')}
+                placeholderTextColor="#aaa"
+                multiline
+                numberOfLines={6}
+                textAlignVertical="top"
+            />
+
+            <View style={{ height: 40 }} />
+        </ScrollView>
     );
 }
 
@@ -16,20 +136,62 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        padding: 20,
     },
-    content: {
-        flex: 1,
+    sectionTitle: {
+        fontSize: 22,
+        fontWeight: '700',
+        color: '#222',
+        marginBottom: 18,
+    },
+    sectionSubtitle: {
+        fontSize: 15,
+        fontWeight: '600',
+        color: '#222',
+        marginBottom: 12,
+        marginTop: 16,
+    },
+    checkboxContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 12,
+        paddingVertical: 4,
+    },
+    checkbox: {
+        width: 20,
+        height: 20,
+        borderWidth: 2,
+        borderColor: '#ddd',
+        borderRadius: 4,
+        marginRight: 12,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#fff',
     },
-    text: {
-        fontSize: 24,
+    checkboxChecked: {
+        backgroundColor: '#007AFF',
+        borderColor: '#007AFF',
+    },
+    checkmark: {
+        color: '#fff',
+        fontSize: 12,
         fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 8,
     },
-    subtext: {
-        fontSize: 16,
-        color: '#666',
+    checkboxLabel: {
+        fontSize: 15,
+        color: '#222',
+        flex: 1,
+    },
+    additionalTermsInput: {
+        borderWidth: 1,
+        borderColor: '#e0e0e0',
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        paddingVertical: 12,
+        fontSize: 15,
+        color: '#222',
+        backgroundColor: '#fafafa',
+        minHeight: 120,
+        textAlignVertical: 'top',
     },
 }); 

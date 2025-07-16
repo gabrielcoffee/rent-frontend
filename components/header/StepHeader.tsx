@@ -17,10 +17,10 @@ export default function StepHeader({ currentStep }: StepHeaderProps) {
     const { t } = useTranslation();
 
     const steps: Step[] = [
-        { number: 1, title: t('announce.step1Title'), icon: 'document-text-outline' },
-        { number: 2, title: t('announce.step2Title'), icon: 'pricetag-outline' },
-        { number: 3, title: t('announce.step3Title'), icon: 'location-outline' },
-        { number: 4, title: t('announce.step4Title'), icon: 'checkmark-circle-outline' },
+        { number: 1, title: t('announce.step1Label'), icon: 'document-text-outline' },
+        { number: 2, title: t('announce.step2Label'), icon: 'pricetag-outline' },
+        { number: 3, title: t('announce.step3Label'), icon: 'location-outline' },
+        { number: 4, title: t('announce.step4Label'), icon: 'checkmark-circle-outline' },
     ];
 
     return (

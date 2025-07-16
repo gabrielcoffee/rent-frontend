@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import ReviewCard from './ReviewCard';
+import ReviewCard from '../cards/ReviewCard';
 
 type Props = {
     itemId: string;
