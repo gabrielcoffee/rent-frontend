@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import UpwardsMenu from '../UpwardsMenu';
+import UpwardsMenu from '../modals/UpwardsMenu';
 import { CATEGORIES, CONDITIONS, Category, Condition } from './constants';
 
 export default function Step1Details() {
@@ -66,21 +66,15 @@ export default function Step1Details() {
             <UpwardsMenu<Category>
                 visible={categoryMenuVisible}
                 onClose={() => setCategoryMenuVisible(false)}
+                onSelect={(item: Category) => setSelectedCategory(item)}
                 title={t('announce.category', 'announce.category')}
                 items={CATEGORIES}
                 selectedId={selectedCategory?.id || null}
                 renderItem={(item: Category, isSelected: boolean) => (
-                    <TouchableOpacity
-                        key={item.id}
-                        style={[styles.menuItem, isSelected && styles.selectedMenuItem]}
-                        onPress={() => {
-                            setSelectedCategory(item);
-                            setCategoryMenuVisible(false);
-                        }}
-                    >
+                    <View style={[styles.menuItem, isSelected && styles.selectedMenuItem]}>
                         <Text style={styles.menuItemText}>{item.emoji} {t(item.label)}</Text>
                         {isSelected && <Ionicons name="checkmark" size={18} color="#3a5d47" />}
-                    </TouchableOpacity>
+                    </View>
                 )}
             />
 
@@ -88,21 +82,15 @@ export default function Step1Details() {
             <UpwardsMenu<Condition>
                 visible={conditionMenuVisible}
                 onClose={() => setConditionMenuVisible(false)}
+                onSelect={(item: Condition) => setSelectedCondition(item)}
                 title={t('announce.condition', 'announce.condition')}
                 items={CONDITIONS}
                 selectedId={selectedCondition?.id || null}
                 renderItem={(item: Condition, isSelected: boolean) => (
-                    <TouchableOpacity
-                        key={item.id}
-                        style={[styles.menuItem, isSelected && styles.selectedMenuItem]}
-                        onPress={() => {
-                            setSelectedCondition(item);
-                            setConditionMenuVisible(false);
-                        }}
-                    >
+                    <View style={[styles.menuItem, isSelected && styles.selectedMenuItem]}>
                         <Text style={styles.menuItemText}>{item.emoji} {t(item.label)}</Text>
                         {isSelected && <Ionicons name="checkmark" size={18} color="#3a5d47" />}
-                    </TouchableOpacity>
+                    </View>
                 )}
             />
         </View>

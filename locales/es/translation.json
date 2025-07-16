@@ -77,7 +77,8 @@
     "step4Title": "Términos",
     "publishListing": "Publicar Anuncio",
     "condition": "Condición",
-    "descriptionPlaceholder": "Describe tu artículo, sus características e instrucciones especiales..."
+    "descriptionPlaceholder": "Describe tu artículo, sus características e instrucciones especiales...",
+    "selectCategory": "Selecciona la Categoría"
   },
   "item": {
     "rent": "Alquilar",

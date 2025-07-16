@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-import SearchHeader from '../../components/SearchHeader';
+import SearchHeader from '../../components/header/SearchHeader';
 
 // Mock data for categories
 const categories = [

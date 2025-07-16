@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingVertical: 16,
         paddingHorizontal: 16,
-        borderBottomWidth: 1,
         borderBottomColor: '#e0e0e0',
     },
     stepsContainer: {

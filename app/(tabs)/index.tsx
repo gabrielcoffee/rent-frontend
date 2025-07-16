@@ -1,6 +1,6 @@
-import CategoriesGrid from '@/components/CategoriesGrid';
-import ExploreHeader from '@/components/ExploreHeader';
-import ItemGrid from '@/components/ItemGrid';
+import CategoriesGrid from '@/components/grid/CategoriesGrid';
+import ItemGrid from '@/components/grid/ItemGrid';
+import ExploreHeader from '@/components/header/ExploreHeader';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

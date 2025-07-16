@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AnnounceFooter from '../../components/AnnounceFooter';
-import AnnounceHeader from '../../components/AnnounceHeader';
-import StepHeader from '../../components/StepHeader';
 import Step1Details from '../../components/announce/Step1Details';
 import Step2Pricing from '../../components/announce/Step2Pricing';
 import Step3Pickup from '../../components/announce/Step3Pickup';
 import Step4Terms from '../../components/announce/Step4Terms';
+import AnnounceFooter from '../../components/AnnounceFooter';
+import AnnounceHeader from '../../components/header/AnnounceHeader';
+import StepHeader from '../../components/header/StepHeader';
 
 export default function AnnouncePage() {
     const [currentStep, setCurrentStep] = useState(1);

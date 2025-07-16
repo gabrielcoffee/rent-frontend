@@ -1,6 +1,6 @@
 import ItemLocation from '@/components/ItemLocation';
-import OwnerCard from '@/components/OwnerCard';
-import ReviewsGrid from '@/components/ReviewsGrid';
+import OwnerCard from '@/components/cards/OwnerCard';
+import ReviewsGrid from '@/components/grid/ReviewsGrid';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';

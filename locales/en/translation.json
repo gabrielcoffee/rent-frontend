@@ -77,7 +77,8 @@
     "step4Title": "Terms",
     "publishListing": "Publish Listing",
     "condition": "Condition",
-    "descriptionPlaceholder": "Describe your item, its features, and any special instructions..."
+    "descriptionPlaceholder": "Describe your item, its features, and any special instructions...",
+    "selectCategory": "Select Category"
   },
   "item": {
     "rent": "Rent",

@@ -79,7 +79,8 @@
     "publishListing": "Publicar Anúncio",
     "condition": "Condição",
     "descriptionPlaceholder": "Descreva seu item, suas características e instruções especiais...",
-    "photosLimit": "Até 10 fotos"
+    "photosLimit": "Até 10 fotos",
+    "selectCategory": "Selecione a Categoria"
   },
   "item": {
     "rent": "Alugar",
