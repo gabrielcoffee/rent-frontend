@@ -4,6 +4,7 @@ import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import { supabase } from '../../app/utils/supabase';
 import SolidButton from '../buttons/SolidButton';
 import AuthHeader from './AuthHeader';
+import { translateAuthError } from './authUtils';
 
 interface LoginProps {
     onSwitchToSignUp: () => void;
@@ -22,7 +23,10 @@ export default function Login({ onSwitchToSignUp, onSwitchToForgotPassword }: Lo
             email: email,
             password: password,
         });
-        if (error) Alert.alert(t('auth.loginError'), error.message);
+        if (error) {
+            const translatedError = translateAuthError(error.message, t);
+            Alert.alert(t('auth.loginError'), translatedError);
+        }
         setLoading(false);
     }
 

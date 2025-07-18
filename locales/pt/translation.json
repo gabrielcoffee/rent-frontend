@@ -76,7 +76,15 @@
     "checkInboxVerification": "Verifique sua caixa de entrada para verificação de email!",
     "loginError": "Erro no Login",
     "signUpError": "Erro no Cadastro",
-    "resetSuccess": "Redefinição de Senha"
+    "resetSuccess": "Redefinição de Senha",
+    "resetEmailInstructions": "Verifique seu email para instruções de redefinição de senha.",
+    "invalidCredentials": "Credenciais inválidas. Verifique seu email e senha.",
+    "userNotFound": "Usuário não encontrado. Verifique seu email.",
+    "emailAlreadyExists": "Este email já está sendo usado por outra conta.",
+    "weakPassword": "A senha é muito fraca. Use pelo menos 6 caracteres.",
+    "emailNotConfirmed": "Email não confirmado. Verifique sua caixa de entrada.",
+    "tooManyRequests": "Muitas tentativas. Tente novamente em alguns minutos.",
+    "networkError": "Erro de conexão. Verifique sua internet."
   },
   "profile": {
     "title": "Perfil",
@@ -85,7 +93,9 @@
     "rentedItems": "Itens Alugados",
     "favorites": "Favoritos",
     "editProfile": "Editar Perfil",
-    "logout": "Sair"
+    "logout": "Sair",
+    "logoutConfirmation": "Tem certeza de que deseja sair?",
+    "logoutFailed": "Falha ao sair. Tente novamente."
   },
   "items": {
     "title": "Itens",

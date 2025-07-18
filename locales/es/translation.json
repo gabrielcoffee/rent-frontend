@@ -75,7 +75,15 @@
     "checkInboxVerification": "¡Revisa tu bandeja de entrada para verificación de email!",
     "loginError": "Error de Inicio de Sesión",
     "signUpError": "Error de Registro",
-    "resetSuccess": "Restablecimiento de Contraseña"
+    "resetSuccess": "Restablecimiento de Contraseña",
+    "resetEmailInstructions": "Revisa tu email para instrucciones de restablecimiento de contraseña.",
+    "invalidCredentials": "Credenciales inválidas. Verifica tu email y contraseña.",
+    "userNotFound": "Usuario no encontrado. Verifica tu email.",
+    "emailAlreadyExists": "Este email ya está siendo usado por otra cuenta.",
+    "weakPassword": "La contraseña es muy débil. Usa al menos 6 caracteres.",
+    "emailNotConfirmed": "Email no confirmado. Revisa tu bandeja de entrada.",
+    "tooManyRequests": "Demasiados intentos. Inténtalo de nuevo en unos minutos.",
+    "networkError": "Error de conexión. Verifica tu internet."
   },
   "profile": {
     "title": "Perfil",
@@ -84,7 +92,9 @@
     "rentedItems": "Artículos Alquilados",
     "favorites": "Favoritos",
     "editProfile": "Editar Perfil",
-    "logout": "Cerrar Sesión"
+    "logout": "Cerrar Sesión",
+    "logoutConfirmation": "¿Estás seguro de que quieres cerrar sesión?",
+    "logoutFailed": "Error al cerrar sesión. Inténtalo de nuevo."
   },
   "items": {
     "title": "Artículos",

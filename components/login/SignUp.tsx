@@ -4,6 +4,7 @@ import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import { supabase } from '../../app/utils/supabase';
 import SolidButton from '../buttons/SolidButton';
 import AuthHeader from './AuthHeader';
+import { translateAuthError } from './authUtils';
 
 interface SignUpProps {
     onSwitchToLogin: () => void;
@@ -37,7 +38,8 @@ export default function SignUp({ onSwitchToLogin }: SignUpProps) {
         });
 
         if (error) {
-            Alert.alert(t('auth.signUpError'), error.message);
+            const translatedError = translateAuthError(error.message, t);
+            Alert.alert(t('auth.signUpError'), translatedError);
         } else if (!session) {
             Alert.alert(t('common.success'), t('auth.checkInboxVerification'));
         }

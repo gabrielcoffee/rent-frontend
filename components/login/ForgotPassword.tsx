@@ -4,6 +4,7 @@ import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import { supabase } from '../../app/utils/supabase';
 import SolidButton from '../buttons/SolidButton';
 import AuthHeader from './AuthHeader';
+import { translateAuthError } from './authUtils';
 
 interface ForgotPasswordProps {
     onSwitchToLogin: () => void;
@@ -27,12 +28,13 @@ export default function ForgotPassword({ onSwitchToLogin }: ForgotPasswordProps)
         });
 
         if (error) {
-            Alert.alert(t('common.error'), error.message);
+            const translatedError = translateAuthError(error.message, t);
+            Alert.alert(t('common.error'), translatedError);
         } else {
             setEmailSent(true);
             Alert.alert(
                 t('auth.resetSuccess'),
-                t('auth.resetEmailMessage')
+                t('auth.resetEmailInstructions')
             );
         }
         setLoading(false);

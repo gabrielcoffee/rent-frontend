@@ -23,10 +23,10 @@ export default function ProfilePage() {
     const handleLogout = () => {
         Alert.alert(
             t('profile.logout'),
-            t('profile.logoutConfirmation', 'Are you sure you want to logout?'),
+            t('profile.logoutConfirmation'),
             [
                 {
-                    text: t('common.cancel', 'Cancel'),
+                    text: t('common.cancel'),
                     style: 'cancel',
                 },
                 {
@@ -36,7 +36,7 @@ export default function ProfilePage() {
                         try {
                             await signOut();
                         } catch (error) {
-                            Alert.alert('Error', 'Failed to logout. Please try again.');
+                            Alert.alert(t('common.error'), t('profile.logoutFailed'));
                         }
                     },
                 },
