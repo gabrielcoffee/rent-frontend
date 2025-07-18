@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import UpwardsMenu from '../modals/UpwardsMenu';
 import { CATEGORIES, CONDITIONS, Category, Condition } from './constants';
 
@@ -13,7 +13,7 @@ export default function Step1Details() {
     const [selectedCondition, setSelectedCondition] = useState<Condition | null>(null);
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             {/* Section Title */}
             <Text style={styles.sectionTitle}>{t('announce.step1Title', 'Item Details')}</Text>
 
@@ -93,7 +93,7 @@ export default function Step1Details() {
                     </View>
                 )}
             />
-        </View>
+        </ScrollView>
     );
 }
 

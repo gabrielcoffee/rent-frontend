@@ -2,11 +2,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MenuButton } from '../../components/buttons/MenuButton';
 import ProfileInfoCard from '../../components/cards/ProfileInfoCard';
 import ProfileHeader from '../../components/header/ProfileHeader';
+import { useAuth } from '../../contexts/AuthContext';
 
 type MenuButtonData = {
     icon: keyof typeof Ionicons.glyphMap;
@@ -17,6 +18,31 @@ type MenuButtonData = {
 export default function ProfilePage() {
     const { t } = useTranslation();
     const router = useRouter();
+    const { signOut } = useAuth();
+
+    const handleLogout = () => {
+        Alert.alert(
+            t('profile.logout'),
+            t('profile.logoutConfirmation', 'Are you sure you want to logout?'),
+            [
+                {
+                    text: t('common.cancel', 'Cancel'),
+                    style: 'cancel',
+                },
+                {
+                    text: t('profile.logout'),
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            await signOut();
+                        } catch (error) {
+                            Alert.alert('Error', 'Failed to logout. Please try again.');
+                        }
+                    },
+                },
+            ]
+        );
+    };
 
     const profile = {
         username: "johnbopp",
@@ -44,7 +70,7 @@ export default function ProfilePage() {
         { icon: 'settings-outline', label: t('profile.settings'), onPress: () => {} },
         { icon: 'shield-checkmark-outline', label: t('common.safety'), onPress: () => {} },
         { icon: 'document-text-outline', label: t('common.legal'), onPress: () => {} },
-        { icon: 'log-out-outline', label: t('profile.logout'), onPress: () => {} },
+        { icon: 'log-out-outline', label: t('profile.logout'), onPress: handleLogout },
     ];
 
     return (
@@ -81,10 +107,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     menuSection: {
-        marginBottom: 16,
         backgroundColor: '#fff',
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: '#e0e0e0',
+        marginTop: 20,
+        paddingHorizontal: 20,
     },
 });

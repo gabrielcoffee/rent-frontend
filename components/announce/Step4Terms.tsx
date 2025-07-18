@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import CheckboxItem from '../buttons/CheckboxItem';
 
 interface RentalTerms {
     noSmoking: boolean;
@@ -36,22 +37,7 @@ export default function Step4Terms() {
         }));
     };
 
-    const CheckboxItem = ({ 
-        checked, 
-        onPress, 
-        title 
-    }: { 
-        checked: boolean; 
-        onPress: () => void; 
-        title: string; 
-    }) => (
-        <TouchableOpacity style={styles.checkboxContainer} onPress={onPress}>
-            <View style={[styles.checkbox, checked && styles.checkboxChecked]}>
-                {checked && <Text style={styles.checkmark}>✓</Text>}
-            </View>
-            <Text style={styles.checkboxLabel}>{title}</Text>
-        </TouchableOpacity>
-    );
+
 
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -63,6 +49,7 @@ export default function Step4Terms() {
                 {t('announce.rentalTerms', 'Rental Terms')}
             </Text>
 
+            
             <CheckboxItem
                 checked={rentalTerms.noSmoking}
                 onPress={() => toggleTerm('noSmoking')}
@@ -82,21 +69,15 @@ export default function Step4Terms() {
             />
 
             <CheckboxItem
-                checked={rentalTerms.damageDeposit}
-                onPress={() => toggleTerm('damageDeposit')}
-                title={t('announce.damageDeposit', 'Damage deposit required')}
-            />
-
-            <CheckboxItem
                 checked={rentalTerms.lateReturnFee}
                 onPress={() => toggleTerm('lateReturnFee')}
-                title={t('announce.lateReturnFee', 'Late return fee applies')}
+                title={t('announce.lateReturnFeeCheckbox', 'Late return fee applies')}
             />
 
             <CheckboxItem
                 checked={rentalTerms.mustProvideId}
                 onPress={() => toggleTerm('mustProvideId')}
-                title={t('announce.mustProvideId', 'Must provide ID')}
+                title={t('announce.mustBeVerified', 'Must be verified')}
             />
 
             <CheckboxItem
@@ -151,37 +132,7 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         marginTop: 16,
     },
-    checkboxContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 12,
-        paddingVertical: 4,
-    },
-    checkbox: {
-        width: 20,
-        height: 20,
-        borderWidth: 2,
-        borderColor: '#ddd',
-        borderRadius: 4,
-        marginRight: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-    },
-    checkboxChecked: {
-        backgroundColor: '#007AFF',
-        borderColor: '#007AFF',
-    },
-    checkmark: {
-        color: '#fff',
-        fontSize: 12,
-        fontWeight: 'bold',
-    },
-    checkboxLabel: {
-        fontSize: 15,
-        color: '#222',
-        flex: 1,
-    },
+
     additionalTermsInput: {
         borderWidth: 1,
         borderColor: '#e0e0e0',

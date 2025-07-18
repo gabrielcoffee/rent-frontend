@@ -14,7 +14,7 @@ interface SolidButtonProps extends TouchableOpacityProps {
 export default function SolidButton({ 
     title, 
     onPress, 
-    backgroundColor = '#333',
+    backgroundColor = '#8B0000',
     textColor = '#fff',
     icon,
     iconColor = '#fff',
@@ -41,13 +41,14 @@ export default function SolidButton({
 
 const styles = StyleSheet.create({
     button: {
-        flex: 1,
         paddingVertical: 14,
+        paddingHorizontal: 24,
         borderRadius: 6,
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center',
         gap: 8,
+        minWidth: 120,
     },
     buttonText: {
         fontSize: 16,

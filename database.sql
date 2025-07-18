@@ -1,174 +1,14 @@
 -- ===========================================================
--- 1. Create Currency Lookup Table
--- ===========================================================
-CREATE TABLE public.currency (
-  code        TEXT      NOT NULL PRIMARY KEY,         -- e.g. 'BRL', 'USD', 'EUR'
-  name        TEXT      NOT NULL,                     -- e.g. 'Brazilian Real'
-  symbol      TEXT      NULL,                         -- e.g. 'R$'
-  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
-COMMENT ON TABLE public.currency IS 'List of supported currency codes with human-readable names and symbols.';
-
--- Insert initial currencies
-INSERT INTO public.currency (code, name, symbol) VALUES
-  ('BRL', 'Brazilian Real', 'R$'),
-  ('USD', 'United States Dollar', '$');
-
--- ===========================================================
--- 2. Create Category Table
+-- 0. Common Extensions & Utilities
 -- ===========================================================
 
--- 2.1. Table "category"
-CREATE TABLE public.category (
-  id         UUID      NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
-  code       TEXT      NOT NULL UNIQUE,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
-COMMENT ON TABLE public.category IS 'Top-level groups for organizing items (e.g. Electronics, Sports).';
-
--- ===========================================================
--- 3. Create Profile Table
--- ===========================================================
-
--- PostGIS extension to use GEOGRAPHY(Point)
--- will be used to find nearby users within X kilometers.
+-- Enable PostGIS once
 CREATE EXTENSION IF NOT EXISTS postgis;
 
--- 3.1. Table "profile"
-CREATE TABLE public.profile (
-  id               UUID                        NOT NULL PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  username         TEXT                        NOT NULL UNIQUE,
-  display_name     TEXT                        NOT NULL,
-  full_name        TEXT                        NOT NULL,
-  phone_number     TEXT                        NULL,
-  avatar_url       TEXT                        NULL,
-  bio              TEXT                        NULL,
-  rating_sum       INTEGER                     NOT NULL DEFAULT 0,
-  rating_count     INTEGER                     NOT NULL DEFAULT 0,
-  is_verified      BOOLEAN                     NOT NULL DEFAULT FALSE,
-  address_line1    TEXT                        NULL,
-  address_line2    TEXT                        NULL,
-  city             TEXT                        NULL,
-  state            TEXT                        NULL,
-  postal_code      TEXT                        NULL,
-  country          TEXT                        NULL,
-  -- PostGIS geolocation:
-  location         GEOGRAPHY(POINT, 4326)      NULL,
-  created_at       TIMESTAMPTZ                 NOT NULL DEFAULT NOW(),
-  updated_at       TIMESTAMPTZ                 NOT NULL DEFAULT NOW()
-);
+-- UUID generation
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-COMMENT ON TABLE public.profile IS 'User profiles containing personal information, contact details, and geolocation data.';
-
--- A functional index for faster geospatial lookups
-CREATE INDEX IF NOT EXISTS idx_profile_location
-  ON public.profile
-  USING GIST (location);
-
--- ===========================================================
--- 4. Create Item, Booking, Rental, Request Tables
--- ===========================================================
-
--- 4.1. Table "item"
-CREATE TABLE public.item (
-  id             UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
-  owner_id       UUID           NOT NULL
-                   REFERENCES public.profile(id) ON DELETE CASCADE,
-  title          TEXT           NOT NULL,
-  description    TEXT           NOT NULL,
-  price_daily    NUMERIC(10,2)  NOT NULL,
-  price_weekly   NUMERIC(10,2)  NULL,
-  price_monthly  NUMERIC(10,2)  NULL,
-  currency       TEXT           NOT NULL    DEFAULT 'BRL'
-                   REFERENCES public.currency(code) ON UPDATE CASCADE ON DELETE RESTRICT,
-  verified       BOOLEAN        NOT NULL DEFAULT FALSE,
-  is_active      BOOLEAN        NOT NULL DEFAULT TRUE,
-  created_at     TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-  updated_at     TIMESTAMPTZ    NOT NULL DEFAULT NOW()
-);
-
-COMMENT ON TABLE public.item IS 'Represents all items listed by users as available for rent.';
-
--- 4.2. Table "booking"
-CREATE TABLE public.booking (
-  id               UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
-  item_id          UUID           NOT NULL
-                     REFERENCES public.item(id) ON DELETE CASCADE,
-  requester_id     UUID           NOT NULL
-                     REFERENCES public.profile(id) ON DELETE CASCADE,
-  requested_start  DATE           NOT NULL,
-  requested_end    DATE           NOT NULL,
-  proposed_price   NUMERIC(10,2)  NULL,
-  status           TEXT           NOT NULL    DEFAULT 'pending'
-                   CHECK (status IN ('pending','declined','approved','canceled')),
-  created_at       TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-  updated_at       TIMESTAMPTZ    NOT NULL DEFAULT NOW()
-);
-
-COMMENT ON TABLE public.booking IS 'Stores requests made by users to rent an existing item from the catalog.';
-
--- 4.3. Table "rental"
-CREATE TABLE public.rental (
-  id               UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
-  booking_id       UUID           NULL
-                     REFERENCES public.booking(id) ON DELETE SET NULL,
-  item_id          UUID           NOT NULL
-                     REFERENCES public.item(id) ON DELETE CASCADE,
-  renter_id        UUID           NOT NULL
-                     REFERENCES public.profile(id) ON DELETE CASCADE,
-  owner_id         UUID           NOT NULL
-                     REFERENCES public.profile(id),
-  actual_start     DATE           NOT NULL,
-  actual_end       DATE           NULL,
-  status           TEXT           NOT NULL DEFAULT 'active'
-                   CHECK (status IN ('active','completed','canceled','late')),
-  final_price      NUMERIC(10,2)  NULL,
-  created_at       TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-  updated_at       TIMESTAMPTZ    NOT NULL DEFAULT NOW()
-);
-
-COMMENT ON TABLE public.rental IS 'Captures rental contracts that are currently active or completed between two users.';
-
--- 4.4. Table "request"
-CREATE TABLE public.request (
-  id               UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id          UUID           NOT NULL
-                     REFERENCES public.profile(id) ON DELETE CASCADE,
-  title            TEXT           NOT NULL,
-  description      TEXT           NULL,
-  requested_start  DATE           NOT NULL,
-  requested_end    DATE           NOT NULL,
-  max_price_daily   NUMERIC(10,2) NULL,
-  max_price_weekly  NUMERIC(10,2) NULL,
-  max_price_monthly NUMERIC(10,2) NULL,
-  status           TEXT           NOT NULL DEFAULT 'open'
-                   CHECK (status IN ('open','matched','expired','canceled')),
-  created_at       TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
-  updated_at       TIMESTAMPTZ    NOT NULL DEFAULT NOW()
-);
-
-COMMENT ON TABLE public.request IS 'Allows users to express demand for items not yet listed by others.';
-
--- ===========================================================
--- 5. Create Many-to-Many Linking Table: item_category
--- ===========================================================
-CREATE TABLE public.item_category (
-  item_id        UUID      NOT NULL
-                   REFERENCES public.item(id) ON DELETE CASCADE,
-  category_id    UUID      NOT NULL
-                   REFERENCES public.category(id) ON DELETE CASCADE,
-  PRIMARY KEY (item_id, category_id)
-);
-
-COMMENT ON TABLE public.item_category IS 'Associates items with one or more categories.';
-
--- ===========================================================
--- 6. Trigger Function for updated_at
--- ===========================================================
+-- Single trigger function to keep all updated_at columns current
 CREATE OR REPLACE FUNCTION public.update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -177,66 +17,311 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 6.1. Triggers on each table to keep updated_at current
-
-CREATE TRIGGER trg_currency_updated_at
-  BEFORE UPDATE ON public.currency
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
-CREATE TRIGGER trg_category_updated_at
-  BEFORE UPDATE ON public.category
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
-CREATE TRIGGER trg_profile_updated_at
-  BEFORE UPDATE ON public.profile
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
-CREATE TRIGGER trg_item_updated_at
-  BEFORE UPDATE ON public.item
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
-CREATE TRIGGER trg_booking_updated_at
-  BEFORE UPDATE ON public.booking
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
-CREATE TRIGGER trg_rental_updated_at
-  BEFORE UPDATE ON public.rental
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
-CREATE TRIGGER trg_request_updated_at
-  BEFORE UPDATE ON public.request
-  FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
 
 -- ===========================================================
--- 7. Indexes to Improve Performance (omitting small tables)
+-- 1. Lookup Tables
 -- ===========================================================
 
--- 7.1. item.owner_id
-CREATE INDEX IF NOT EXISTS idx_item_owner_id
-  ON public.item(owner_id);
+-- 1.1 Currency
+CREATE TABLE IF NOT EXISTS public.currency (
+  id         UUID         NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  code       TEXT         NOT NULL UNIQUE,
+  name       TEXT         NOT NULL,
+  symbol     TEXT,
+  created_at TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.currency IS 'Supported currency codes';
+INSERT INTO public.currency (code,name,symbol)
+  VALUES ('BRL','Brazilian Real','R$'),('USD','US Dollar','$')
+ON CONFLICT DO NOTHING;
 
--- 7.2. booking.item_id and booking.requester_id
-CREATE INDEX IF NOT EXISTS idx_booking_item_id
-  ON public.booking(item_id);
-CREATE INDEX IF NOT EXISTS idx_booking_requester_id
-  ON public.booking(requester_id);
+-- 1.2 Category
+CREATE TABLE IF NOT EXISTS public.category (
+  id         UUID         NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  code       TEXT         NOT NULL UNIQUE,
+  created_at TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.category IS 'Top–level item groups';
 
--- 7.3. rental.booking_id, rental.item_id, rental.renter_id, rental.owner_id
-CREATE INDEX IF NOT EXISTS idx_rental_booking_id
-  ON public.rental(booking_id);
-CREATE INDEX IF NOT EXISTS idx_rental_item_id
-  ON public.rental(item_id);
-CREATE INDEX IF NOT EXISTS idx_rental_renter_id
-  ON public.rental(renter_id);
-CREATE INDEX IF NOT EXISTS idx_rental_owner_id
-  ON public.rental(owner_id);
 
--- 7.4. request.user_id
-CREATE INDEX IF NOT EXISTS idx_request_user_id
-  ON public.request(user_id);
+-- ===========================================================
+-- 2. Core User/Profile Tables
+-- ===========================================================
 
--- 7.5. item_category indexes for efficient category queries
-CREATE INDEX IF NOT EXISTS idx_item_category_category_id
-  ON public.item_category(category_id);
-CREATE INDEX IF NOT EXISTS idx_item_category_item_id
-  ON public.item_category(item_id);
+-- 2.1 Profile
+CREATE TABLE IF NOT EXISTS public.profile (
+  id               UUID                   NOT NULL PRIMARY KEY 
+                       REFERENCES auth.users(id) ON DELETE CASCADE,
+  username         TEXT                   NOT NULL UNIQUE,
+  display_name     TEXT                   NOT NULL,
+  full_name        TEXT                   NOT NULL,
+  phone_number     TEXT,
+  avatar_url       TEXT,
+  bio              TEXT,
+  rating_sum       INTEGER                NOT NULL DEFAULT 0,
+  rating_count     INTEGER                NOT NULL DEFAULT 0,
+  is_verified      BOOLEAN                NOT NULL DEFAULT FALSE,
+  created_at       TIMESTAMPTZ            NOT NULL DEFAULT NOW(),
+  updated_at       TIMESTAMPTZ            NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.profile IS 'User profiles';
+
+
+-- ===========================================================
+-- 3. Address Management
+-- ===========================================================
+
+-- 3.1 Address
+CREATE TABLE IF NOT EXISTS public.address (
+  id            UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  profile_id    UUID           NOT NULL
+                  REFERENCES public.profile(id) ON DELETE CASCADE,
+  name          TEXT           NOT NULL,
+  address_line1 TEXT           NOT NULL,
+  address_line2 TEXT,
+  city          TEXT           NOT NULL,
+  state         TEXT           NOT NULL,
+  postal_code   TEXT           NOT NULL,
+  country       TEXT           NOT NULL,
+  location      GEOGRAPHY(POINT,4326),
+  is_active     BOOLEAN        NOT NULL DEFAULT FALSE,
+  created_at    TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ    NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.address IS 'Multiple addresses per user';
+
+
+-- ===========================================================
+-- 4. Items & Transactions
+-- ===========================================================
+
+-- 4.1 Item
+CREATE TABLE IF NOT EXISTS public.item (
+  id            UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  owner_id      UUID           NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  title         TEXT           NOT NULL,
+  description   TEXT           NOT NULL,
+  price_daily   NUMERIC(10,2)  NOT NULL,
+  price_weekly  NUMERIC(10,2),
+  price_monthly NUMERIC(10,2),
+  currency      TEXT           NOT NULL DEFAULT 'BRL'
+                   REFERENCES public.currency(code)
+                   ON UPDATE CASCADE ON DELETE RESTRICT,
+  verified      BOOLEAN        NOT NULL DEFAULT FALSE,
+  is_active     BOOLEAN        NOT NULL DEFAULT TRUE,
+  created_at    TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ    NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.item IS 'Items listed for rent';
+
+-- 4.2 Booking
+CREATE TABLE IF NOT EXISTS public.booking (
+  id              UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  item_id         UUID           NOT NULL REFERENCES public.item(id) ON DELETE CASCADE,
+  requester_id    UUID           NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  requested_start DATE           NOT NULL,
+  requested_end   DATE           NOT NULL,
+  proposed_price  NUMERIC(10,2),
+  status          TEXT           NOT NULL DEFAULT 'pending'
+                    CHECK (status IN ('pending','declined','approved','canceled')),
+  created_at      TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ    NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.booking IS 'User booking requests';
+
+-- 4.3 Rental
+CREATE TABLE IF NOT EXISTS public.rental (
+  id            UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  booking_id    UUID           REFERENCES public.booking(id) ON DELETE SET NULL,
+  item_id       UUID           NOT NULL REFERENCES public.item(id) ON DELETE CASCADE,
+  renter_id     UUID           NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  owner_id      UUID           NOT NULL REFERENCES public.profile(id),
+  actual_start  DATE           NOT NULL,
+  actual_end    DATE,
+  status        TEXT           NOT NULL DEFAULT 'active'
+                   CHECK (status IN ('active','completed','canceled','late')),
+  final_price   NUMERIC(10,2),
+  created_at    TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ    NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.rental IS 'Ongoing/completed rentals';
+
+-- 4.4 Request
+CREATE TABLE IF NOT EXISTS public.request (
+  id               UUID           NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id          UUID           NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  title            TEXT           NOT NULL,
+  description      TEXT,
+  requested_start  DATE           NOT NULL,
+  requested_end    DATE           NOT NULL,
+  max_price_daily   NUMERIC(10,2),
+  max_price_weekly  NUMERIC(10,2),
+  max_price_monthly NUMERIC(10,2),
+  status           TEXT           NOT NULL DEFAULT 'open'
+                    CHECK (status IN ('open','matched','expired','canceled')),
+  created_at       TIMESTAMPTZ    NOT NULL DEFAULT NOW(),
+  updated_at       TIMESTAMPTZ    NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.request IS 'Item demand postings';
+
+-- 4.5 Item ⇆ Category M2M
+CREATE TABLE IF NOT EXISTS public.item_category (
+  item_id     UUID NOT NULL REFERENCES public.item(id) ON DELETE CASCADE,
+  category_id UUID NOT NULL REFERENCES public.category(id) ON DELETE CASCADE,
+  PRIMARY KEY(item_id,category_id)
+);
+COMMENT ON TABLE public.item_category IS 'Item–category links';
+
+
+-- ===========================================================
+-- 5. Rating Tables
+-- ===========================================================
+
+-- 5.1 User Ratings
+CREATE TABLE IF NOT EXISTS public.user_rating (
+  id         UUID          NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id    UUID          NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  rater_id   UUID          NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  rating     SMALLINT      NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment    TEXT,
+  created_at TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ   NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.user_rating IS 'Individual ratings given to users';
+
+-- 5.2 Item Ratings
+CREATE TABLE IF NOT EXISTS public.item_rating (
+  id         UUID          NOT NULL PRIMARY KEY DEFAULT gen_random_uuid(),
+  item_id    UUID          NOT NULL REFERENCES public.item(id) ON DELETE CASCADE,
+  rater_id   UUID          NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  rating     SMALLINT      NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment    TEXT,
+  created_at TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ   NOT NULL DEFAULT NOW()
+);
+COMMENT ON TABLE public.item_rating IS 'Individual ratings given to items';
+
+
+-- ===========================================================
+-- 6. Chat between users (1-on-1)
+-- ===========================================================
+
+CREATE TABLE IF NOT EXISTS public.conversation (
+  id         UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+  user1_id   UUID         NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  user2_id   UUID         NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  UNIQUE (user1_id, user2_id)
+);
+
+CREATE TABLE IF NOT EXISTS public.message (
+  id              UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+  conversation_id UUID         NOT NULL REFERENCES public.conversation(id) ON DELETE CASCADE,
+  sender_id       UUID         NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  content         TEXT         NOT NULL,
+  sent_at         TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+
+-- ===========================================================
+-- 7. New Tables: Configs, Notifications, Blocking, Reports, Favorites
+-- ===========================================================
+
+-- 7.1 User Configurations
+CREATE TABLE IF NOT EXISTS public.user_config (
+  profile_id   UUID         PRIMARY KEY REFERENCES public.profile(id) ON DELETE CASCADE,
+  language     TEXT         DEFAULT 'en',
+  dark_mode    BOOLEAN      NOT NULL DEFAULT FALSE,
+  created_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  updated_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+-- 7.2 Notification Store
+CREATE TABLE IF NOT EXISTS public.notification (
+  id            UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+  profile_id    UUID         NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  type          TEXT         NOT NULL CHECK (type IN ('conversation','opportunity','booking','system')),
+  title         TEXT         NOT NULL,
+  body          TEXT         NOT NULL,
+  is_read       BOOLEAN      NOT NULL DEFAULT FALSE,
+  created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+-- 7.3 Notification Config
+CREATE TABLE IF NOT EXISTS public.notification_config (
+  profile_id     UUID         PRIMARY KEY REFERENCES public.profile(id) ON DELETE CASCADE,
+  conversation   BOOLEAN      NOT NULL DEFAULT TRUE,
+  opportunity    BOOLEAN      NOT NULL DEFAULT TRUE,
+  booking        BOOLEAN      NOT NULL DEFAULT TRUE,
+  system         BOOLEAN      NOT NULL DEFAULT TRUE,
+  created_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  updated_at     TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+-- 7.4 Blocked Users
+CREATE TABLE IF NOT EXISTS public.blocked_user (
+  blocker_id   UUID NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  blocked_id   UUID NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  blocked_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (blocker_id, blocked_id)
+);
+
+-- 7.5 Item Reports
+CREATE TABLE IF NOT EXISTS public.item_report (
+  id           UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+  item_id      UUID         NOT NULL REFERENCES public.item(id) ON DELETE CASCADE,
+  reporter_id  UUID         NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  reason       TEXT         NOT NULL CHECK (reason IN ('spam','inappropriate','scam','misleading','other')),
+  details      VARCHAR(100),
+  status       TEXT         NOT NULL DEFAULT 'pending'
+                 CHECK (status IN ('pending','reviewed','action_taken')),
+  created_at   TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+-- 7.6 User Reports
+CREATE TABLE IF NOT EXISTS public.user_report (
+  id            UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+  reported_id   UUID         NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  reporter_id   UUID         NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  reason        TEXT         NOT NULL CHECK (reason IN ('harassment','spam','fake_profile','scam','other')),
+  details       VARCHAR(100),
+  status        TEXT         NOT NULL DEFAULT 'pending'
+                 CHECK (status IN ('pending','reviewed','action_taken')),
+  created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
+-- 7.7 Favorites (user ↔ item)
+CREATE TABLE IF NOT EXISTS public.favorite_item (
+  profile_id UUID NOT NULL REFERENCES public.profile(id) ON DELETE CASCADE,
+  item_id    UUID NOT NULL REFERENCES public.item(id)    ON DELETE CASCADE,
+  favorited_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (profile_id, item_id)
+);
+
+
+-- ===========================================================
+-- 8. Attach updated_at Triggers
+-- ===========================================================
+
+
+DO $$
+DECLARE
+  tbl TEXT;
+  tables TEXT[] := ARRAY[
+    'currency','category','profile','address',
+    'item','booking','rental','request',
+    'user_rating','item_rating',
+    'user_config','notification_config'
+  ];
+BEGIN
+  FOREACH tbl IN ARRAY tables
+  LOOP
+    EXECUTE FORMAT($f$
+      CREATE TRIGGER trg_%1$s_updated
+      BEFORE UPDATE ON public.%1$s
+      FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
+    $f$, tbl);
+  END LOOP;
+END $$;
