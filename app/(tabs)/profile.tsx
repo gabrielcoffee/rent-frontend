@@ -1,12 +1,12 @@
+import ProfileHeader from '@/components/header/ProfileHeader';
+import { MenuButton } from '@/components/profile/MenuButton';
+import ProfileInfoCard from '@/components/profile/ProfileInfoCard';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MenuButton } from '../../components/buttons/MenuButton';
-import ProfileInfoCard from '../../components/cards/ProfileInfoCard';
-import ProfileHeader from '../../components/header/ProfileHeader';
 
 type MenuButtonData = {
     icon: keyof typeof Ionicons.glyphMap;

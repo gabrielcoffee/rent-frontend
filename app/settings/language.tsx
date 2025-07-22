@@ -1,13 +1,13 @@
+import { SettingsCheckButton } from '@/components/SettingsCheckButton';
+import BorderButton from '@/components/buttons/BorderButton';
+import SolidButton from '@/components/buttons/SolidButton';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SettingsCheckButton } from '../../components/SettingsCheckButton';
-import BorderButton from '../../components/buttons/BorderButton';
-import SolidButton from '../../components/buttons/SolidButton';
-import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function LanguagePage() {
     const { t } = useTranslation();

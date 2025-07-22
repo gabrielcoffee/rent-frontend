@@ -5,28 +5,17 @@ import CheckboxItem from '../buttons/CheckboxItem';
 import NumericInput from '../NumericInput';
 import PriceInput from '../PriceInput';
 
-interface PricingData {
-    dailyRate: string;
-    weeklyRate: string;
-    monthlyRate: string;
-    securityDeposit: string;
-    lateReturnFee: string;
-    minDuration: string;
-    maxDuration: string;
-}
-
 export default function Step2Pricing() {
     const { t } = useTranslation();
     const [selectedRates, setSelectedRates] = useState<string[]>(['daily']);
-    const [pricingData, setPricingData] = useState<PricingData>({
-        dailyRate: '',
-        weeklyRate: '',
-        monthlyRate: '',
-        securityDeposit: '',
-        lateReturnFee: '',
-        minDuration: '1',
-        maxDuration: '30',
-    });
+
+    const [dailyRate, setDailyRate] = useState('');
+    const [weeklyRate, setWeeklyRate] = useState('');
+    const [monthlyRate, setMonthlyRate] = useState('');
+    const [securityDeposit, setSecurityDeposit] = useState('');
+    const [lateReturnFee, setLateReturnFee] = useState('');
+    const [minDuration, setMinDuration] = useState('1');
+    const [maxDuration, setMaxDuration] = useState('30');
 
     const rateOptions = [
         { key: 'daily', label: t('announce.dailyRates', 'Daily rates') },
@@ -46,13 +35,6 @@ export default function Step2Pricing() {
         });
     };
 
-    const updatePricingData = (field: keyof PricingData, value: string | Date | boolean) => {
-        setPricingData(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    };
-
     const getRateLabel = (rateKey: string) => {
         switch (rateKey) {
             case 'daily': return t('announce.perDay', 'per day');
@@ -61,8 +43,6 @@ export default function Step2Pricing() {
             default: return '';
         }
     };
-
-
 
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -90,8 +70,12 @@ export default function Step2Pricing() {
                 selectedRates.includes(rateKey) && (
                     <PriceInput
                         key={rateKey}
-                        value={pricingData[`${rateKey}Rate` as keyof PricingData] as string}
-                        onChangeText={(value) => updatePricingData(`${rateKey}Rate` as keyof PricingData, value)}
+                        value={rateKey === 'daily' ? dailyRate : rateKey === 'weekly' ? weeklyRate : monthlyRate}
+                        onChangeText={(value) => {
+                            if (rateKey === 'daily') setDailyRate(value);
+                            else if (rateKey === 'weekly') setWeeklyRate(value);
+                            else if (rateKey === 'monthly') setMonthlyRate(value);
+                        }}
                         label={getRateLabel(rateKey)}
                     />
                 )
@@ -102,8 +86,8 @@ export default function Step2Pricing() {
                 {t('announce.securityDeposit', 'Security Deposit (Optional)')}
             </Text>
             <PriceInput
-                value={pricingData.securityDeposit}
-                onChangeText={(value) => updatePricingData('securityDeposit', value)}
+                value={securityDeposit}
+                onChangeText={(value) => setSecurityDeposit(value)}
                 label=""
             />
             <Text style={styles.helperText}>
@@ -115,8 +99,8 @@ export default function Step2Pricing() {
                 {t('announce.lateReturnFee', 'Late Return Fee (Optional)')}
             </Text>
             <PriceInput
-                value={pricingData.lateReturnFee}
-                onChangeText={(value) => updatePricingData('lateReturnFee', value)}
+                value={lateReturnFee}
+                onChangeText={(value) => setLateReturnFee(value)}
                 label={t('announce.lateReturnFeeLabel', 'Additional fee for late return')}
             />
             <Text style={styles.helperText}>
@@ -129,15 +113,15 @@ export default function Step2Pricing() {
             </Text>
             <View style={styles.durationContainer}>
                 <NumericInput
-                    value={pricingData.minDuration}
-                    onChangeText={(value) => updatePricingData('minDuration', value)}
+                    value={minDuration}
+                    onChangeText={(value) => setMinDuration(value)}
                     label={t('announce.minimumDays', 'Minimum (days)')}
                     placeholder="1"
                     minValue={1}
                 />
                 <NumericInput
-                    value={pricingData.maxDuration}
-                    onChangeText={(value) => updatePricingData('maxDuration', value)}
+                    value={maxDuration}
+                    onChangeText={(value) => setMaxDuration(value)}
                     label={t('announce.maximumDays', 'Maximum (days)')}
                     placeholder="30"
                     maxValue={90}

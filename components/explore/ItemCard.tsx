@@ -10,7 +10,7 @@ type Props = {
     onPress: () => void;
 }
 
-export default function ItemSearchCard({ itemName, itemImage, priceDay, distance, onPress }: Props) {
+export default function ItemCard({ itemName, itemImage, priceDay, distance, onPress }: Props) {
     return (
         <TouchableOpacity style={styles.card} onPress={onPress}>
             <Image
@@ -22,7 +22,7 @@ export default function ItemSearchCard({ itemName, itemImage, priceDay, distance
                 <View style={styles.detailsContainer}>
                     <Text style={styles.priceText}>${priceDay}/day</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Ionicons name="location-outline" size={15} color="#666" style={{ marginRight: 3 }} />
+                        <Ionicons name="location-outline" size={15} color="#666" />
                         <Text style={styles.distanceText}>{distance}km</Text>
                     </View>
                 </View>
@@ -35,13 +35,18 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: '#fff',
         borderRadius: 12,
-        marginBottom: 16,
-        borderWidth: 1,
-        borderColor: '#e0e0e0',
+        marginHorizontal: 6,
+        marginTop: 8,
+        marginBottom: 18,
+        width: 160,
+        shadowColor: '#000',
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
+        elevation: 5,
     },
     itemImage: {
         width: '100%',
-        height: 140,
+        height: 120,
         borderTopLeftRadius: 12,
         borderTopRightRadius: 12,
     },
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
     itemName: {
         fontSize: 14,
         fontWeight: '600',
-        marginBottom: 6,
+        marginBottom: 4,
         color: '#333',
     },
     detailsContainer: {
@@ -60,7 +65,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     priceText: {
-        fontSize: 14,
+        fontSize: 13,
         color: '#2ea682',
         fontWeight: '500',
     },
@@ -68,4 +73,4 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: '#666',
     },
-}); 
+});

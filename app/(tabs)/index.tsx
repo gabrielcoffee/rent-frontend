@@ -1,6 +1,7 @@
-import CategoriesGrid from '@/components/grid/CategoriesGrid';
-import ItemGrid from '@/components/grid/ItemGrid';
-import ExploreHeader from '@/components/header/ExploreHeader';
+import CategoriesGrid from '@/components/explore/CategoriesGrid';
+import ExploreHeader from '@/components/explore/ExploreHeader';
+import ItemGrid from '@/components/explore/ItemGrid';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -85,8 +86,7 @@ export default function HomePage() {
     };
 
     const handleItemPress = (itemId: string) => {
-        // TODO: Navigate to item details
-        console.log('Item pressed:', itemId);
+        router.navigate(`/(item)/${itemId}`);
     };
 
     return (

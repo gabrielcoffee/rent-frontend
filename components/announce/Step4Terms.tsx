@@ -17,27 +17,24 @@ interface RentalTerms {
 export default function Step4Terms() {
     const { t } = useTranslation();
 
-    const [rentalTerms, setRentalTerms] = useState<RentalTerms>({
-        noSmoking: false,
-        noPets: false,
-        returnCleaned: false,
-        damageDeposit: false,
-        lateReturnFee: false,
-        mustProvideId: false,
-        insuranceRequired: false,
-        supervisedUse: false,
-    });
+    const [noSmoking, setNoSmoking] = useState(false);
+    const [noPets, setNoPets] = useState(false);
+    const [returnCleaned, setReturnCleaned] = useState(false);
+    const [lateReturnFee, setLateReturnFee] = useState(false);
+    const [mustProvideId, setMustProvideId] = useState(false);
+    const [insuranceRequired, setInsuranceRequired] = useState(false);
+    const [supervisedUse, setSupervisedUse] = useState(false);
 
+    const terms: Array<[boolean, (value: boolean) => void, string]> = [
+        [noSmoking, setNoSmoking, t('announce.noSmoking', 'No smoking')],
+        [noPets, setNoPets, t('announce.noPets', 'No pets')],
+        [returnCleaned, setReturnCleaned, t('announce.returnCleaned', 'Return cleaned')],
+        [lateReturnFee, setLateReturnFee, t('announce.lateReturnFeeCheckbox', 'Late return fee applies')],
+        [mustProvideId, setMustProvideId, t('announce.mustBeVerified', 'Must be verified')],
+        [insuranceRequired, setInsuranceRequired, t('announce.insuranceRequired', 'Insurance required')],
+        [supervisedUse, setSupervisedUse, t('announce.supervisedUse', 'Supervised use only')],
+    ]
     const [additionalTerms, setAdditionalTerms] = useState('');
-
-    const toggleTerm = (term: keyof RentalTerms) => {
-        setRentalTerms(prev => ({
-            ...prev,
-            [term]: !prev[term],
-        }));
-    };
-
-
 
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -48,49 +45,15 @@ export default function Step4Terms() {
             <Text style={styles.sectionSubtitle}>
                 {t('announce.rentalTerms', 'Rental Terms')}
             </Text>
-
             
-            <CheckboxItem
-                checked={rentalTerms.noSmoking}
-                onPress={() => toggleTerm('noSmoking')}
-                title={t('announce.noSmoking', 'No smoking')}
-            />
-
-            <CheckboxItem
-                checked={rentalTerms.noPets}
-                onPress={() => toggleTerm('noPets')}
-                title={t('announce.noPets', 'No pets')}
-            />
-
-            <CheckboxItem
-                checked={rentalTerms.returnCleaned}
-                onPress={() => toggleTerm('returnCleaned')}
-                title={t('announce.returnCleaned', 'Return cleaned')}
-            />
-
-            <CheckboxItem
-                checked={rentalTerms.lateReturnFee}
-                onPress={() => toggleTerm('lateReturnFee')}
-                title={t('announce.lateReturnFeeCheckbox', 'Late return fee applies')}
-            />
-
-            <CheckboxItem
-                checked={rentalTerms.mustProvideId}
-                onPress={() => toggleTerm('mustProvideId')}
-                title={t('announce.mustBeVerified', 'Must be verified')}
-            />
-
-            <CheckboxItem
-                checked={rentalTerms.insuranceRequired}
-                onPress={() => toggleTerm('insuranceRequired')}
-                title={t('announce.insuranceRequired', 'Insurance required')}
-            />
-
-            <CheckboxItem
-                checked={rentalTerms.supervisedUse}
-                onPress={() => toggleTerm('supervisedUse')}
-                title={t('announce.supervisedUse', 'Supervised use only')}
-            />
+            {terms.map(([checked, setChecked, title]) => (
+                <CheckboxItem
+                    key={title}
+                    checked={checked}
+                    onPress={() => setChecked(!checked)}
+                    title={title}
+                />
+            ))}
 
             {/* Additional Terms Section */}
             <Text style={styles.sectionSubtitle}>

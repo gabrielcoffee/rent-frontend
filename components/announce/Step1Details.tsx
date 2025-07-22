@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import UpwardsMenu from '../modals/UpwardsMenu';
+import UpwardsMenu from '../menus/UpwardsMenu';
 import { CATEGORIES, CONDITIONS, Category, Condition } from './constants';
 
 export default function Step1Details() {

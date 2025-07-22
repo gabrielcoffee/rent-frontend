@@ -2,8 +2,8 @@ import { router } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
-import BorderButton from './buttons/BorderButton';
-import SolidButton from './buttons/SolidButton';
+import BorderButton from '../buttons/BorderButton';
+import SolidButton from '../buttons/SolidButton';
 
 type AnnounceFooterProps = {
     currentStep: number;

@@ -1,7 +1,6 @@
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import RentableItemCard from '../cards/RentableItemCard';
+import RentableItemCard from './ItemCard';
 
 type Item = {
     id: string;
@@ -18,12 +17,6 @@ type Props = {
 }
 
 export default function ItemGrid({ title, items, onItemPress }: Props) {
-    const router = useRouter();
-
-    const handleItemPress = (itemId: string) => {
-        router.navigate(`/(item)/${itemId}`);
-    };
-
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
@@ -39,7 +32,7 @@ export default function ItemGrid({ title, items, onItemPress }: Props) {
                         itemImage={item.image}
                         priceDay={item.priceDay}
                         distance={item.distance}
-                        onPress={() => handleItemPress(item.id)}
+                        onPress={() => onItemPress(item.id)}
                     />
                 ))}
             </ScrollView>
