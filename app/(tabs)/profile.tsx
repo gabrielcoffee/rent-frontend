@@ -2,12 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MenuButton } from '../../components/buttons/MenuButton';
 import ProfileInfoCard from '../../components/cards/ProfileInfoCard';
 import ProfileHeader from '../../components/header/ProfileHeader';
-import { useAuth } from '../../contexts/AuthContext';
 
 type MenuButtonData = {
     icon: keyof typeof Ionicons.glyphMap;
@@ -18,31 +17,6 @@ type MenuButtonData = {
 export default function ProfilePage() {
     const { t } = useTranslation();
     const router = useRouter();
-    const { signOut } = useAuth();
-
-    const handleLogout = () => {
-        Alert.alert(
-            t('profile.logout'),
-            t('profile.logoutConfirmation'),
-            [
-                {
-                    text: t('common.cancel'),
-                    style: 'cancel',
-                },
-                {
-                    text: t('profile.logout'),
-                    style: 'destructive',
-                    onPress: async () => {
-                        try {
-                            await signOut();
-                        } catch (error) {
-                            Alert.alert(t('common.error'), t('profile.logoutFailed'));
-                        }
-                    },
-                },
-            ]
-        );
-    };
 
     const profile = {
         username: "johnbopp",
@@ -70,7 +44,6 @@ export default function ProfilePage() {
         { icon: 'settings-outline', label: t('profile.settings'), onPress: () => {} },
         { icon: 'shield-checkmark-outline', label: t('common.safety'), onPress: () => {} },
         { icon: 'document-text-outline', label: t('common.legal'), onPress: () => {} },
-        { icon: 'log-out-outline', label: t('profile.logout'), onPress: handleLogout },
     ];
 
     return (

@@ -8,7 +8,7 @@ Rent is a modern consumer-to-consumer (C2C) item rental platform built with Reac
 - 🔍 Browse available items for rent
 - 📸 Upload and manage item listings with photos
 - 💰 Set rental prices and availability
-- 🔒 Secure user authentication
+
 - 📍 Location-based item discovery
 - 💬 In-app messaging between renters and owners
 - ⭐ Rating and review system
