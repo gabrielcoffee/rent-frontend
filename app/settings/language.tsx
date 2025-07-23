@@ -1,6 +1,6 @@
-import { SettingsCheckButton } from '@/components/SettingsCheckButton';
 import BorderButton from '@/components/buttons/BorderButton';
 import SolidButton from '@/components/buttons/SolidButton';
+import { SettingsCheckButton } from '@/components/profile/SettingsCheckButton';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';

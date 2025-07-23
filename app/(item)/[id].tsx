@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
@@ -110,9 +110,6 @@ export default function ItemPage() {
                     {/* Owner Card */}
                     <Text style={styles.sectionTitle}>Meet the Owner</Text>
                     <OwnerCard owner={item.owner} />
-                    <TouchableOpacity style={styles.messageButton}>
-                        <Text style={styles.messageButtonText}>Message owner</Text>
-                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>

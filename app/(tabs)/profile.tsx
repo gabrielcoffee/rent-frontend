@@ -1,6 +1,6 @@
 import ProfileHeader from '@/components/header/ProfileHeader';
-import { MenuButton } from '@/components/profile/MenuButton';
 import ProfileInfoCard from '@/components/profile/ProfileInfoCard';
+import { MenuButton } from '@/components/profile/ProfileMenuButton';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
