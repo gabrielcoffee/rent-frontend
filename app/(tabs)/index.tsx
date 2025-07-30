@@ -3,6 +3,7 @@ import ExploreHeader from '@/components/explore/ExploreHeader';
 import ItemGrid from '@/components/explore/ItemGrid';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,21 +12,6 @@ type Category = {
     label: string;
     emoji: string;
 };
-
-const CATEGORIES: Category[] = [
-    { id: 'sports', label: 'Sports', emoji: '⚽' },
-    { id: 'tech', label: 'Tech', emoji: '💻' },
-    { id: 'creative', label: 'Creative', emoji: '🎨' },
-    { id: 'house', label: 'House', emoji: '🏠' },
-    { id: 'tools', label: 'Tools', emoji: '🔧' },
-    { id: 'music', label: 'Music', emoji: '🎵' },
-    { id: 'outdoor', label: 'Outdoor', emoji: '🌲' },
-    { id: 'fitness', label: 'Fitness', emoji: '💪' },
-    { id: 'gaming', label: 'Gaming', emoji: '🎮' },
-    { id: 'party', label: 'Party', emoji: '🎉' },
-    { id: 'camping', label: 'Camping', emoji: '⛺' },
-    { id: 'photography', label: 'Photo', emoji: '📸' },
-];
 
 const exampleItems = [
     {
@@ -74,6 +60,22 @@ const exampleItems = [
 
 export default function HomePage() {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const { t } = useTranslation();
+
+    const CATEGORIES: Category[] = [
+        { id: 'sports', label: t('categories.sports'), emoji: '⚽' },
+        { id: 'tech', label: t('categories.tech'), emoji: '💻' },
+        { id: 'creative', label: t('categories.creative'), emoji: '🎨' },
+        { id: 'house', label: t('categories.house'), emoji: '🏠' },
+        { id: 'tools', label: t('categories.tools'), emoji: '🔧' },
+        { id: 'music', label: t('categories.music'), emoji: '🎵' },
+        { id: 'outdoor', label: t('categories.outdoor'), emoji: '🌲' },
+        { id: 'fitness', label: t('categories.fitness'), emoji: '💪' },
+        { id: 'gaming', label: t('categories.gaming'), emoji: '🎮' },
+        { id: 'party', label: t('categories.party'), emoji: '🎉' },
+        { id: 'camping', label: t('categories.camping'), emoji: '⛺' },
+        { id: 'photography', label: t('categories.photography'), emoji: '📸' },
+    ];
 
     const handleCategoryPress = (categoryId: string) => {
         setSelectedCategories(prev => {
@@ -102,17 +104,17 @@ export default function HomePage() {
                 {/* Item Grids */}
                 <View style={styles.gridsContainer}>
                     <ItemGrid 
-                        title="Near You" 
+                        title={t('explore.nearYou')} 
                         items={exampleItems} 
                         onItemPress={handleItemPress}
                     />
                     <ItemGrid 
-                        title="Recommended" 
+                        title={t('explore.recommended')} 
                         items={exampleItems} 
                         onItemPress={handleItemPress}
                     />
                     <ItemGrid 
-                        title="Popular" 
+                        title={t('explore.popular')} 
                         items={exampleItems} 
                         onItemPress={handleItemPress}
                     />

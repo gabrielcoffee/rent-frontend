@@ -18,7 +18,8 @@
     "payments": "Payments",
     "help": "Help",
     "safety": "Safety",
-    "legal": "Legal"
+    "legal": "Legal",
+    "location": "Location"
   },
   "navigation": {
     "explore": "Explore",
@@ -32,6 +33,13 @@
     "explore": "Explore Items",
     "recentItems": "Recent Items",
     "categories": "Categories"
+  },
+  "explore": {
+    "nearYou": "Near You",
+    "recommended": "Recommended",
+    "popular": "Popular",
+    "perDay": "/day",
+    "kilometers": "km"
   },
   "search": {
     "title": "Search",

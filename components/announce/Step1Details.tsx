@@ -1,7 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Input from '../Input';
 import UpwardsMenu from '../menus/UpwardsMenu';
 import { CATEGORIES, CONDITIONS, Category, Condition } from './constants';
 
@@ -9,8 +10,13 @@ export default function Step1Details() {
     const { t } = useTranslation();
     const [categoryMenuVisible, setCategoryMenuVisible] = useState(false);
     const [conditionMenuVisible, setConditionMenuVisible] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-    const [selectedCondition, setSelectedCondition] = useState<Condition | null>(null);
+
+    // Details Data
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [photos, setPhotos] = useState<string[]>([]);
+    const [category, setCategory] = useState<Category | null>(null);
+    const [condition, setCondition] = useState<Condition | null>(null);
 
     return (
         <ScrollView style={styles.container}>
@@ -25,21 +31,21 @@ export default function Step1Details() {
             </TouchableOpacity>
 
             {/* Title Input */}
-            <Text style={styles.label}>{t('announce.itemName', 'Title')}</Text>
-            <TextInput
-                style={styles.input}
+            <Input
+                variant="text"
+                label={t('announce.itemName', 'Title')}
                 placeholder={t('announce.itemName', 'What are you renting out?')}
-                placeholderTextColor="#aaa"
+                value={title}
+                onChangeText={setTitle}
             />
 
             {/* Description Input */}
-            <Text style={styles.label}>{t('announce.description', 'Description')}</Text>
-            <TextInput
-                style={[styles.input, styles.textarea]}
+            <Input
+                variant="textbox"
+                label={t('announce.description', 'Description')}
                 placeholder={t('announce.descriptionPlaceholder', 'Describe your item, its features, and any special instructions...')}
-                placeholderTextColor="#aaa"
-                multiline
-                numberOfLines={4}
+                value={description}
+                onChangeText={setDescription}
             />
 
             {/* Category & Condition Row */}
@@ -47,16 +53,16 @@ export default function Step1Details() {
                 <View style={{ flex: 1, marginRight: 8 }}>
                     <Text style={styles.label}>{t('announce.category', 'Category')}</Text>
                     <TouchableOpacity style={styles.selectButton} onPress={() => setCategoryMenuVisible(true)}>
-                        <Text style={[styles.selectButtonText, !selectedCategory && { color: '#aaa' }]}> 
-                            {selectedCategory ? `${selectedCategory.emoji} ${t(selectedCategory.label)}` : t('announce.selectCategory', 'Select Category')}
+                        <Text style={[styles.selectButtonText, !category && { color: '#aaa' }]}> 
+                            {category ? `${category.emoji} ${t(category.label)}` : t('announce.selectCategory', 'Select Category')}
                         </Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1, marginLeft: 8 }}>
                     <Text style={styles.label}>{t('announce.condition', 'Condition')}</Text>
                     <TouchableOpacity style={styles.selectButton} onPress={() => setConditionMenuVisible(true)}>
-                        <Text style={[styles.selectButtonText, !selectedCondition && { color: '#aaa' }]}> 
-                            {selectedCondition ? `${selectedCondition.emoji} ${t(selectedCondition.label)}` : t('announce.condition', 'Select condition')}
+                        <Text style={[styles.selectButtonText, !condition && { color: '#aaa' }]}> 
+                            {condition ? `${condition.emoji} ${t(condition.label)}` : t('announce.condition', 'Select condition')}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -66,10 +72,10 @@ export default function Step1Details() {
             <UpwardsMenu<Category>
                 visible={categoryMenuVisible}
                 onClose={() => setCategoryMenuVisible(false)}
-                onSelect={(item: Category) => setSelectedCategory(item)}
+                onSelect={(item: Category) => setCategory(item)}
                 title={t('announce.category', 'announce.category')}
                 items={CATEGORIES}
-                selectedId={selectedCategory?.id || null}
+                selectedId={category?.id || null}
                 renderItem={(item: Category, isSelected: boolean) => (
                     <View style={[styles.menuItem, isSelected && styles.selectedMenuItem]}>
                         <Text style={styles.menuItemText}>{item.emoji} {t(item.label)}</Text>
@@ -82,10 +88,10 @@ export default function Step1Details() {
             <UpwardsMenu<Condition>
                 visible={conditionMenuVisible}
                 onClose={() => setConditionMenuVisible(false)}
-                onSelect={(item: Condition) => setSelectedCondition(item)}
+                onSelect={(item: Condition) => setCondition(item)}
                 title={t('announce.condition', 'announce.condition')}
                 items={CONDITIONS}
-                selectedId={selectedCondition?.id || null}
+                selectedId={condition?.id || null}
                 renderItem={(item: Condition, isSelected: boolean) => (
                     <View style={[styles.menuItem, isSelected && styles.selectedMenuItem]}>
                         <Text style={styles.menuItemText}>{item.emoji} {t(item.label)}</Text>
@@ -100,7 +106,7 @@ export default function Step1Details() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f5f5f5',
         padding: 20,
     },
     sectionTitle: {

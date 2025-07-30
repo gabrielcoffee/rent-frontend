@@ -107,7 +107,7 @@ export default function Step3Pickup() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f5f5f5',
         padding: 20,
     },
     sectionTitle: {

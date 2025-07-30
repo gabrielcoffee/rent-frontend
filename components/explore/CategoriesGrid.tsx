@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import CategoryButton from './CategoryButton';
 
@@ -15,13 +16,15 @@ type Props = {
 };
 
 export default function CategoriesGrid({ categories, selectedCategories, onCategoryPress } : Props) {
+    const { t } = useTranslation();
+    
     // Split categories into two rows
     const firstRowCategories = categories.slice(0, 6);
     const secondRowCategories = categories.slice(6);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Explore Categories</Text>
+            <Text style={styles.title}>{t('home.categories')}</Text>
             <ScrollView 
                 horizontal 
                 showsHorizontalScrollIndicator={false}

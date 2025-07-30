@@ -34,6 +34,13 @@
     "recentItems": "Itens Recentes",
     "categories": "Categorias"
   },
+  "explore": {
+    "nearYou": "Perto de Você",
+    "recommended": "Recomendados",
+    "popular": "Populares",
+    "perDay": "/dia",
+    "kilometers": "km"
+  },
   "search": {
     "title": "Buscar",
     "placeholder": "O que você está procurando?",
@@ -148,7 +155,7 @@
     "house": "Casa",
     "tools": "Ferramentas",
     "music": "Música",
-    "outdoor": "Ao Ar Livre",
+    "outdoor": "Ar Livre",
     "fitness": "Fitness",
     "gaming": "Jogos",
     "party": "Festa",

@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type Props = {
@@ -11,6 +12,8 @@ type Props = {
 }
 
 export default function ItemCard({ itemName, itemImage, priceDay, distance, onPress }: Props) {
+    const { t } = useTranslation();
+    
     return (
         <TouchableOpacity style={styles.card} onPress={onPress}>
             <Image
@@ -20,10 +23,10 @@ export default function ItemCard({ itemName, itemImage, priceDay, distance, onPr
             <View style={styles.infoContainer}>
                 <Text style={styles.itemName} numberOfLines={1}>{itemName}</Text>
                 <View style={styles.detailsContainer}>
-                    <Text style={styles.priceText}>${priceDay}/day</Text>
+                    <Text style={styles.priceText}>${priceDay}{t('explore.perDay')}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Ionicons name="location-outline" size={15} color="#666" />
-                        <Text style={styles.distanceText}>{distance}km</Text>
+                        <Text style={styles.distanceText}>{distance}{t('explore.kilometers')}</Text>
                     </View>
                 </View>
             </View>
