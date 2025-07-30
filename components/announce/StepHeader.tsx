@@ -47,7 +47,7 @@ export default function StepHeader({ currentStep }: StepHeaderProps) {
                                 numberOfLines={1}
                                 ellipsizeMode="tail"
                             >
-                                {step.number}. {step.title}
+                                {step.title}
                             </Text>
                         </View>
                         
@@ -67,10 +67,11 @@ export default function StepHeader({ currentStep }: StepHeaderProps) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: '#f5f5f5',
         paddingVertical: 16,
         paddingHorizontal: 16,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: "#e0e0e0",
+        borderBottomWidth: 1,
     },
     stepsContainer: {
         flexDirection: 'row',
@@ -79,13 +80,13 @@ const styles = StyleSheet.create({
     },
     stepItem: {
         alignItems: 'center',
-        minWidth: 60, // Ensures enough space for the text
+        minWidth: 60,
         paddingHorizontal: 4,
     },
     stepCircle: {
         width: 40,
         height: 40,
-        borderRadius: 12,
+        borderRadius: 20, // Circular
         backgroundColor: '#f5f5f5',
         alignItems: 'center',
         justifyContent: 'center',
@@ -94,15 +95,6 @@ const styles = StyleSheet.create({
     activeStepCircle: {
         backgroundColor: '#8B0000',
         borderColor: '#8B0000',
-    },
-    stepNumber: {
-        fontSize: 12,
-        color: '#999',
-        marginBottom: 4,
-    },
-    activeStepNumber: {
-        color: '#8B0000',
-        fontWeight: '600',
     },
     stepTitle: {
         fontSize: 10,
@@ -119,6 +111,7 @@ const styles = StyleSheet.create({
         height: 2,
         backgroundColor: '#e0e0e0',
         marginBottom: 20,
+        alignSelf: 'center', // Alinha no centro
     },
     activeConnector: {
         backgroundColor: '#8B0000',

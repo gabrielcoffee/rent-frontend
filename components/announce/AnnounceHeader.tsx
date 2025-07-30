@@ -30,7 +30,7 @@ export default function AnnounceHeader({ currentStep }: AnnounceHeaderProps) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderBottomColor: '#e0e0e0',
         paddingTop: 8,

@@ -50,34 +50,39 @@ export default function AnnouncePage() {
     };
 
     return (
-        <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
-            {/* Header */}
-            <AnnounceHeader currentStep={currentStep} />
-            
-            {/* Step Header */}
-            <StepHeader currentStep={currentStep} />
-            
-            {/* Render one step at a time */}
-            <View style={styles.content}>
-                {renderStepContent()}
-            </View>
-            
-            {/* Footer */}
-            <AnnounceFooter
-                currentStep={currentStep}
-                onNext={handleNext}
-                onPrevious={handlePrevious}
-                onCancel={handleCancel}
-                onPublish={handlePublish}
-            />
-        </SafeAreaView>
+        <View style={styles.wrapper}>
+            <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
+                {/* Header */}
+                <AnnounceHeader currentStep={currentStep} />
+                
+                {/* Step Header */}
+                <StepHeader currentStep={currentStep} />
+                
+                {/* Render one step at a time */}
+                <View style={styles.content}>
+                    {renderStepContent()}
+                </View>
+                
+                {/* Footer */}
+                <AnnounceFooter
+                    currentStep={currentStep}
+                    onNext={handleNext}
+                    onPrevious={handlePrevious}
+                    onCancel={handleCancel}
+                    onPublish={handlePublish}
+                />
+            </SafeAreaView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
     },
     content: {
         flex: 1,

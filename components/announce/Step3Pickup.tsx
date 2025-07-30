@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Input from '../Input';
 
 type LocationType = 'fixed' | 'arrange';
 
 export default function Step3Pickup() {
     const { t } = useTranslation();
 
+    // Pickup Data
     const [locationType, setLocationType] = useState<LocationType>('fixed');
     const [address, setAddress] = useState('');
     const [instructions, setInstructions] = useState('');
-
-    const handleInstructionsChange = (instructions: string) => {
-        // Limit to 200 characters
-        if (instructions.length <= 200) {
-            setInstructions(instructions);
-        }
-    };
 
     const RadioButton = ({ selected, onPress, title }: { selected: boolean; onPress: () => void; title: string }) => (
         <TouchableOpacity style={styles.radioContainer} onPress={onPress}>
@@ -33,7 +28,7 @@ export default function Step3Pickup() {
             <Text style={styles.sectionTitle}>{t('announce.step3Title', 'Pickup & Location')}</Text>
 
             {/* Location Type Selection */}
-            <Text style={styles.sectionSubtitle}>
+            <Text style={styles.sectionLabel}>
                 {t('announce.locationType', 'Location Type')}
             </Text>
             
@@ -51,46 +46,28 @@ export default function Step3Pickup() {
 
             {/* Address Input - Only show if Fixed Location is selected */}
             {locationType === 'fixed' && (
-                <>
-                    <Text style={styles.sectionSubtitle}>
-                        {t('announce.pickupLocation', 'Pickup Location')}
-                    </Text>
-                    <Text style={styles.inputLabel}>
-                        {t('announce.address', 'Address')}
-                    </Text>
-                    <TextInput
-                        style={styles.textInput}
-                        value={address}
-                        onChangeText={setAddress}
-                        placeholder={t('announce.addressPlaceholder', 'Enter full address')}
-                        placeholderTextColor="#aaa"
-                    />
-                </>
+                <Input
+                    variant="text"
+                    label={t('announce.address', 'Address')}
+                    value={address}
+                    onChangeText={setAddress}
+                    placeholder={t('announce.addressPlaceholder', 'Enter full address')}
+                />
             )}
 
             {/* Pickup Instructions */}
-            <Text style={styles.sectionSubtitle}>
-                {t('announce.pickupInstructions', 'Pickup Instructions')}
-            </Text>
-            <TextInput
-                style={styles.instructionsInput}
+            <Input
+                variant="textbox"
+                label={t('announce.pickupInstructions', 'Pickup Instructions')}
                 value={instructions}
-                onChangeText={handleInstructionsChange}
+                onChangeText={setInstructions}
                 placeholder={t('announce.pickupInstructionsPlaceholder', 'Special instructions for pickup (e.g., apartment number, parking info, contact details)...')}
-                placeholderTextColor="#aaa"
-                multiline
-                numberOfLines={4}
-                maxLength={200}
+                maxCharacters={200}
+                belowText={t('announce.pickupInstructionsHelp', 'Help renters find you and understand the pickup process')}
             />
-            <Text style={styles.helperText}>
-                {t('announce.pickupInstructionsHelp', 'Help renters find you and understand the pickup process')}
-            </Text>
-            <Text style={styles.characterCount}>
-                {instructions.length}/200
-            </Text>
 
             {/* Map Preview Placeholder */}
-            <Text style={styles.sectionSubtitle}>
+            <Text style={styles.sectionLabel}>
                 {t('announce.mapPreview', 'Map Preview')}
             </Text>
             <View style={styles.mapPlaceholder}>
@@ -116,12 +93,11 @@ const styles = StyleSheet.create({
         color: '#222',
         marginBottom: 18,
     },
-    sectionSubtitle: {
+    sectionLabel: {
         fontSize: 15,
         fontWeight: '600',
         color: '#222',
-        marginBottom: 12,
-        marginTop: 16,
+        marginBottom: 6,
     },
     radioContainer: {
         flexDirection: 'row',
@@ -151,48 +127,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#222',
         fontWeight: '500',
-    },
-    inputLabel: {
-        fontSize: 14,
-        fontWeight: '500',
-        color: '#333',
-        marginBottom: 6,
-    },
-    textInput: {
-        borderWidth: 1,
-        borderColor: '#e0e0e0',
-        borderRadius: 8,
-        paddingHorizontal: 12,
-        paddingVertical: 12,
-        fontSize: 15,
-        color: '#222',
-        backgroundColor: '#fafafa',
-        marginBottom: 12,
-    },
-    instructionsInput: {
-        borderWidth: 1,
-        borderColor: '#e0e0e0',
-        borderRadius: 8,
-        paddingHorizontal: 12,
-        paddingVertical: 10,
-        fontSize: 15,
-        color: '#222',
-        backgroundColor: '#fafafa',
-        minHeight: 80,
-        textAlignVertical: 'top',
-        marginBottom: 4,
-    },
-    helperText: {
-        fontSize: 13,
-        color: '#666',
-        marginBottom: 8,
-        marginLeft: 4,
-    },
-    characterCount: {
-        fontSize: 12,
-        color: '#999',
-        textAlign: 'right',
-        marginBottom: 16,
     },
     mapPlaceholder: {
         height: 200,

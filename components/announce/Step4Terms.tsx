@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import CheckboxItem from '../buttons/CheckboxItem';
+import Input from '../Input';
 
 interface RentalTerms {
     noSmoking: boolean;
@@ -17,6 +18,7 @@ interface RentalTerms {
 export default function Step4Terms() {
     const { t } = useTranslation();
 
+    // Terms Data
     const [noSmoking, setNoSmoking] = useState(false);
     const [noPets, setNoPets] = useState(false);
     const [returnCleaned, setReturnCleaned] = useState(false);
@@ -24,6 +26,7 @@ export default function Step4Terms() {
     const [mustProvideId, setMustProvideId] = useState(false);
     const [insuranceRequired, setInsuranceRequired] = useState(false);
     const [supervisedUse, setSupervisedUse] = useState(false);
+    const [additionalTerms, setAdditionalTerms] = useState('');
 
     const terms: Array<[boolean, (value: boolean) => void, string]> = [
         [noSmoking, setNoSmoking, t('announce.noSmoking', 'No smoking')],
@@ -34,7 +37,6 @@ export default function Step4Terms() {
         [insuranceRequired, setInsuranceRequired, t('announce.insuranceRequired', 'Insurance required')],
         [supervisedUse, setSupervisedUse, t('announce.supervisedUse', 'Supervised use only')],
     ]
-    const [additionalTerms, setAdditionalTerms] = useState('');
 
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -42,10 +44,11 @@ export default function Step4Terms() {
             <Text style={styles.sectionTitle}>{t('announce.step4Title', 'Terms & Conditions')}</Text>
 
             {/* Rental Terms Section */}
-            <Text style={styles.sectionSubtitle}>
+            <Text style={styles.sectionLabel}>
                 {t('announce.rentalTerms', 'Rental Terms')}
             </Text>
             
+            {/* Rental Terms */}
             {terms.map(([checked, setChecked, title]) => (
                 <CheckboxItem
                     key={title}
@@ -56,19 +59,12 @@ export default function Step4Terms() {
             ))}
 
             {/* Additional Terms Section */}
-            <Text style={styles.sectionSubtitle}>
-                {t('announce.additionalTerms', 'Additional Terms (Optional)')}
-            </Text>
-
-            <TextInput
-                style={styles.additionalTermsInput}
+            <Input
+                variant="textbox"
+                label={t('announce.additionalTerms', 'Additional Terms (Optional)')}
                 value={additionalTerms}
                 onChangeText={setAdditionalTerms}
                 placeholder={t('announce.additionalTermsPlaceholder', 'Add any specific terms or conditions for your rental...')}
-                placeholderTextColor="#aaa"
-                multiline
-                numberOfLines={6}
-                textAlignVertical="top"
             />
 
             <View style={{ height: 40 }} />
@@ -88,24 +84,10 @@ const styles = StyleSheet.create({
         color: '#222',
         marginBottom: 18,
     },
-    sectionSubtitle: {
+    sectionLabel: {
         fontSize: 15,
         fontWeight: '600',
         color: '#222',
-        marginBottom: 12,
-        marginTop: 16,
-    },
-
-    additionalTermsInput: {
-        borderWidth: 1,
-        borderColor: '#e0e0e0',
-        borderRadius: 8,
-        paddingHorizontal: 12,
-        paddingVertical: 12,
-        fontSize: 15,
-        color: '#222',
-        backgroundColor: '#fafafa',
-        minHeight: 120,
-        textAlignVertical: 'top',
+        marginBottom: 6,
     },
 }); 

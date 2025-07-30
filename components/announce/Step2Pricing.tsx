@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import CheckboxItem from '../buttons/CheckboxItem';
-import NumericInput from '../NumericInput';
-import PriceInput from '../PriceInput';
+import Input from '../Input';
 
 export default function Step2Pricing() {
     const { t } = useTranslation();
     const [selectedRates, setSelectedRates] = useState<string[]>(['daily']);
 
+    // Pricing Data
     const [dailyRate, setDailyRate] = useState('');
     const [weeklyRate, setWeeklyRate] = useState('');
     const [monthlyRate, setMonthlyRate] = useState('');
@@ -35,15 +35,6 @@ export default function Step2Pricing() {
         });
     };
 
-    const getRateLabel = (rateKey: string) => {
-        switch (rateKey) {
-            case 'daily': return t('announce.perDay', 'per day');
-            case 'weekly': return t('announce.perWeek', 'per week');
-            case 'monthly': return t('announce.perMonth', 'per month');
-            default: return '';
-        }
-    };
-
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
             {/* Section Title */}
@@ -66,60 +57,70 @@ export default function Step2Pricing() {
             <Text style={styles.sectionLabel}>
                 {t('announce.rentalPrices', 'Rental Prices')}
             </Text>
-            {['daily', 'weekly', 'monthly'].map(rateKey => 
-                selectedRates.includes(rateKey) && (
-                    <PriceInput
-                        key={rateKey}
-                        value={rateKey === 'daily' ? dailyRate : rateKey === 'weekly' ? weeklyRate : monthlyRate}
-                        onChangeText={(value) => {
-                            if (rateKey === 'daily') setDailyRate(value);
-                            else if (rateKey === 'weekly') setWeeklyRate(value);
-                            else if (rateKey === 'monthly') setMonthlyRate(value);
-                        }}
-                        label={getRateLabel(rateKey)}
-                    />
-                )
+            {selectedRates.includes('daily') && (
+                <Input
+                    variant="currency"
+                    value={dailyRate}
+                    onChangeText={(value) => setDailyRate(value)}
+                    placeholder="0.00"
+                    rightText={t('announce.perDay', 'per day')}
+                />
+            )}
+            {selectedRates.includes('weekly') && (
+                <Input
+                    variant="currency"
+                    value={weeklyRate}
+                    onChangeText={(value) => setWeeklyRate(value)}
+                    placeholder="0.00"
+                    rightText={t('announce.perWeek', 'per week')}
+                />
+            )}
+            {selectedRates.includes('monthly') && (
+                <Input
+                    variant="currency"
+                    value={monthlyRate}
+                    onChangeText={(value) => setMonthlyRate(value)}
+                    placeholder="0.00"
+                    rightText={t('announce.perMonth', 'per month')}
+                />
             )}
 
             {/* Security Deposit */}
-            <Text style={styles.sectionLabel}>
-                {t('announce.securityDeposit', 'Security Deposit (Optional)')}
-            </Text>
-            <PriceInput
+            <Input
+                variant="currency"
+                label={t('announce.securityDeposit', 'Security Deposit (Optional)')}
                 value={securityDeposit}
                 onChangeText={(value) => setSecurityDeposit(value)}
-                label=""
+                placeholder="0.00"
+                belowText={t('announce.securityDepositHelp', 'Refundable deposit to cover potential damages')}
             />
-            <Text style={styles.helperText}>
-                {t('announce.securityDepositHelp', 'Refundable deposit to cover potential damages')}
-            </Text>
 
             {/* Late Return Fee */}
-            <Text style={styles.sectionLabel}>
-                {t('announce.lateReturnFee', 'Late Return Fee (Optional)')}
-            </Text>
-            <PriceInput
+            <Input
+                variant="currency"
+                label={t('announce.lateReturnFee', 'Late Return Fee (Optional)')}
                 value={lateReturnFee}
                 onChangeText={(value) => setLateReturnFee(value)}
-                label={t('announce.lateReturnFeeLabel', 'Additional fee for late return')}
+                placeholder="0.00"
+                rightText={t('announce.lateReturnFeeLabel', 'per day')}
+                belowText={t('announce.lateReturnFeeHelp', 'Extra fee for returning the item late')}
             />
-            <Text style={styles.helperText}>
-                {t('announce.lateReturnFeeHelp', 'Extra fee for returning the item late')}
-            </Text>
 
             {/* Rental Duration */}
-            <Text style={styles.sectionLabel}>
+            <Text style={styles.sectionTitle}>
                 {t('announce.rentalDuration', 'Rental Duration')}
             </Text>
             <View style={styles.durationContainer}>
-                <NumericInput
+                <Input
+                    variant="numeric"
                     value={minDuration}
                     onChangeText={(value) => setMinDuration(value)}
                     label={t('announce.minimumDays', 'Minimum (days)')}
                     placeholder="1"
                     minValue={1}
                 />
-                <NumericInput
+                <Input
+                    variant="numeric"
                     value={maxDuration}
                     onChangeText={(value) => setMaxDuration(value)}
                     label={t('announce.maximumDays', 'Maximum (days)')}
@@ -150,18 +151,11 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#222',
         marginBottom: 6,
-        marginTop: 8,
     },
-
     durationContainer: {
         flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
         marginBottom: 8,
-    },
-    helperText: {
-        fontSize: 13,
-        color: '#666',
-        marginTop: -8,
-        marginBottom: 16,
-        marginLeft: 4,
     },
 }); 
