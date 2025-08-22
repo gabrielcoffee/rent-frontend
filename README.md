@@ -1,6 +1,14 @@
 # Rent - C2C Item Rental Platform
 
-Rent is a modern consumer-to-consumer (C2C) item rental platform built with React Native and Expo. This application allows users to rent out their items to others and rent items from other users in their community.
+Rent is a modern consumer-to-consumer (C2C) item rental platform built with React Native and Expo.
+
+## Screenshots of the app
+<img width="200" height="963" alt="Screenshot 2025-08-22 at 12 15 46 AM" src="https://github.com/user-attachments/assets/fe36b8f6-6473-41dd-99a9-636c10f8c72d" />
+<img width="200" height="954" alt="Screenshot 2025-08-22 at 12 15 59 AM" src="https://github.com/user-attachments/assets/567c8f0e-7bfa-4dae-a455-82fb7bdb880f" />
+<img width="200" height="962" alt="Screenshot 2025-08-22 at 12 16 16 AM" src="https://github.com/user-attachments/assets/cfb9faba-8c46-401c-952d-866548829ff3" />
+<img width="200" height="953" alt="Screenshot 2025-08-22 at 12 16 28 AM" src="https://github.com/user-attachments/assets/14f6fd6c-2278-485e-b32f-b5169b328de8" />
+<img width="200" height="959" alt="Screenshot 2025-08-22 at 12 16 37 AM" src="https://github.com/user-attachments/assets/3b75121b-227d-4d00-9c16-0f3975adeed3" />
+<img width="200" height="957" alt="Screenshot 2025-08-22 at 12 16 49 AM" src="https://github.com/user-attachments/assets/8e7bf114-ab4d-4a80-8c64-14eaa7eeedbd" />
 
 ## Features
 
@@ -8,7 +16,6 @@ Rent is a modern consumer-to-consumer (C2C) item rental platform built with Reac
 - 🔍 Browse available items for rent
 - 📸 Upload and manage item listings with photos
 - 💰 Set rental prices and availability
-
 - 📍 Location-based item discovery
 - 💬 In-app messaging between renters and owners
 - ⭐ Rating and review system
@@ -19,11 +26,6 @@ Rent is a modern consumer-to-consumer (C2C) item rental platform built with Reac
 - **React Native** (0.79.2) - Cross-platform mobile development
 - **Expo** (53.0.9) - Development platform and tools
 - **TypeScript** - Type-safe JavaScript
-- **Expo Router** - File-based routing system
-- **React Navigation** - Navigation library
-- **Expo Image Picker** - Image selection and camera access
-- **React Native Reanimated** - Smooth animations
-- **Expo Blur** - Blur effects and overlays
 
 ## Prerequisites
 
@@ -37,22 +39,18 @@ Rent is a modern consumer-to-consumer (C2C) item rental platform built with Reac
 
 1. Clone the repository:
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/gabrielcoffee/rent-frontend.git
 cd rent-frontend
 ```
 
 2. Install dependencies:
 ```bash
-npm install
-# or
-yarn install
+npx install
 ```
 
 3. Start the development server:
 ```bash
-npm start
-# or
-yarn start
+npx expo start
 ```
 
 4. Run on your preferred platform:
@@ -82,24 +80,6 @@ rent-frontend/
 └── package.json           # Project dependencies and scripts
 ```
 
-## Available Scripts
-
-- `npm start` - Start the Expo development server
-- `npm run ios` - Run on iOS simulator
-- `npm run android` - Run on Android emulator
-- `npm run web` - Run in web browser
-- `npm run lint` - Run ESLint for code quality
-- `npm run reset-project` - Reset project configuration
-
-## Development
-
-This project uses:
-- **Expo Router** for file-based navigation
-- **TypeScript** for type safety
-- **ESLint** for code quality
-- **Expo Image Picker** for photo uploads
-- **React Native Reanimated** for smooth animations
-
 The app follows modern React Native development practices with a focus on performance and user experience.
 
 ## Contributing
@@ -112,12 +92,8 @@ The app follows modern React Native development practices with a focus on perfor
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the ISC License.
 
-## Support
+## Author
 
-For support, please open an issue in the GitHub repository or contact the development team.
-
----
-
-Built using React Native and Expo
+Gabriel Fernandes Pereira
