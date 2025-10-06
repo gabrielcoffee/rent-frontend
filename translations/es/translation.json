@@ -64,11 +64,26 @@
     "logoutFailed": "Error al cerrar sesión. Inténtalo de nuevo."
   },
   "items": {
-    "title": "Artículos",
+    "title": "Mis Artículos",
+    "subtitle": "Gestiona tus alquileres y anuncios",
     "myItems": "Mis Artículos",
+    "myRentals": "Mis Alquileres",
+    "myListings": "Mis Anuncios",
     "rentedItems": "Artículos Alquilados",
     "addItem": "Agregar Artículo",
-    "noItems": "No se encontraron artículos"
+    "noItems": "No se encontraron artículos",
+    "itemsYouRenting": "Artículos que Estás Alquilando",
+    "itemsYouListing": "Artículos que Estás Anunciando",
+    "active": "ACTIVO",
+    "pending": "PENDIENTE",
+    "completed": "COMPLETADO",
+    "message": "Mensaje",
+    "extend": "Extender",
+    "rate": "Calificar",
+    "daysLeft": "{{days}} días restantes",
+    "rentedOn": "Alquilado el {{date}}",
+    "returnDate": "Fecha de devolución: {{date}}",
+    "paidForDays": "Pagado ${{amount}} por {{days}} días"
   },
   "announce": {
     "title": "Anunciar",

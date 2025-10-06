@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     profileSection: {
         padding: 24,
         backgroundColor: '#f5f5f5',
-        marginBottom: 16,
     },
     profileInfoContainer: {
         flexDirection: 'row',

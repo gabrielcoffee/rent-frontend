@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     },
     menuSection: {
         backgroundColor: '#fff',
-        marginTop: 20,
         paddingHorizontal: 20,
+        marginBottom: 24
     },
 });

@@ -64,11 +64,26 @@
     "logoutFailed": "Failed to logout. Please try again."
   },
   "items": {
-    "title": "Items",
+    "title": "My Items",
+    "subtitle": "Manage your rentals and listings",
     "myItems": "My Items",
+    "myRentals": "My Rentals",
+    "myListings": "My Listings",
     "rentedItems": "Rented Items",
     "addItem": "Add Item",
-    "noItems": "No items found"
+    "noItems": "No items found",
+    "itemsYouRenting": "Items You're Renting",
+    "itemsYouListing": "Items You're Listing",
+    "active": "ACTIVE",
+    "pending": "PENDING",
+    "completed": "COMPLETED",
+    "message": "Message",
+    "extend": "Extend",
+    "rate": "Rate",
+    "daysLeft": "{{days}} days left",
+    "rentedOn": "Rented on {{date}}",
+    "returnDate": "Return date: {{date}}",
+    "paidForDays": "Paid ${{amount}} for {{days}} days"
   },
   "announce": {
     "title": "Announce",

@@ -64,11 +64,26 @@
     "logoutFailed": "Falha ao sair. Tente novamente."
   },
   "items": {
-    "title": "Itens",
+    "title": "Meus Itens",
+    "subtitle": "Gerencie seus aluguéis e anúncios",
     "myItems": "Meus Itens",
+    "myRentals": "Meus Aluguéis",
+    "myListings": "Meus Anúncios",
     "rentedItems": "Itens Alugados",
     "addItem": "Adicionar Item",
-    "noItems": "Nenhum item encontrado"
+    "noItems": "Nenhum item encontrado",
+    "itemsYouRenting": "Itens que você está alugando",
+    "itemsYouListing": "Itens que você está anunciando",
+    "active": "ATIVO",
+    "pending": "PENDENTE",
+    "completed": "CONCLUÍDO",
+    "message": "Mensagem",
+    "extend": "Estender",
+    "rate": "Avaliar",
+    "daysLeft": "{{days}} dias restantes",
+    "rentedOn": "Alugado em {{date}}",
+    "returnDate": "Data de devolução: {{date}}",
+    "paidForDays": "Pago ${{amount}} por {{days}} dias"
   },
   "announce": {
     "title": "Anunciar",
