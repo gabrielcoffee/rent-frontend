@@ -3,12 +3,12 @@
 Rent is a modern consumer-to-consumer (C2C) item rental platform built with React Native and Expo.
 
 ## Screenshots of the app
-<img width="200" height="963" alt="Screenshot 2025-08-22 at 12 15 46 AM" src="https://github.com/user-attachments/assets/fe36b8f6-6473-41dd-99a9-636c10f8c72d" />
-<img width="200" height="954" alt="Screenshot 2025-08-22 at 12 15 59 AM" src="https://github.com/user-attachments/assets/567c8f0e-7bfa-4dae-a455-82fb7bdb880f" />
-<img width="200" height="962" alt="Screenshot 2025-08-22 at 12 16 16 AM" src="https://github.com/user-attachments/assets/cfb9faba-8c46-401c-952d-866548829ff3" />
-<img width="200" height="953" alt="Screenshot 2025-08-22 at 12 16 28 AM" src="https://github.com/user-attachments/assets/14f6fd6c-2278-485e-b32f-b5169b328de8" />
-<img width="200" height="959" alt="Screenshot 2025-08-22 at 12 16 37 AM" src="https://github.com/user-attachments/assets/3b75121b-227d-4d00-9c16-0f3975adeed3" />
-<img width="200" height="957" alt="Screenshot 2025-08-22 at 12 16 49 AM" src="https://github.com/user-attachments/assets/8e7bf114-ab4d-4a80-8c64-14eaa7eeedbd" />
+<img width="200" alt="Screenshot 2025-08-22 at 12 15 46 AM" src="https://github.com/user-attachments/assets/fe36b8f6-6473-41dd-99a9-636c10f8c72d" />
+<img width="200" alt="Screenshot 2025-08-22 at 12 15 59 AM" src="https://github.com/user-attachments/assets/567c8f0e-7bfa-4dae-a455-82fb7bdb880f" />
+<img width="200" alt="Screenshot 2025-08-22 at 12 16 16 AM" src="https://github.com/user-attachments/assets/cfb9faba-8c46-401c-952d-866548829ff3" />
+<img width="200" alt="Screenshot 2025-08-22 at 12 16 28 AM" src="https://github.com/user-attachments/assets/14f6fd6c-2278-485e-b32f-b5169b328de8" />
+<img width="200" alt="Screenshot 2025-08-22 at 12 16 37 AM" src="https://github.com/user-attachments/assets/3b75121b-227d-4d00-9c16-0f3975adeed3" />
+<img width="200" alt="Screenshot 2025-08-22 at 12 16 49 AM" src="https://github.com/user-attachments/assets/8e7bf114-ab4d-4a80-8c64-14eaa7eeedbd" />
 
 ## Features
 
