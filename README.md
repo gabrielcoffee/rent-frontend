@@ -1,6 +1,8 @@
 # Rent - C2C Item Rental Platform
 
-Rent is a modern consumer-to-consumer (C2C) item rental platform built with React Native and Expo.
+Rent is a consumer-to-consumer (C2C) item rental platform built with React Native and Expo.
+
+> **Status:** archived. Rent was a startup I co-founded in Brazil (2025). The company has wound down and this repo is kept as a record of the mobile app I built.
 
 ## Screenshots of the app
 <img width="200" alt="Screenshot 2025-08-22 at 12 15 46 AM" src="https://github.com/user-attachments/assets/fe36b8f6-6473-41dd-99a9-636c10f8c72d" />
@@ -45,7 +47,7 @@ cd rent-frontend
 
 2. Install dependencies:
 ```bash
-npx install
+npm install
 ```
 
 3. Start the development server:
